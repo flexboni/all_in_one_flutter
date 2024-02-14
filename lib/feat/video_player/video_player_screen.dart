@@ -55,6 +55,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             })
         : NormalScreenVideoWidget(
             controller: controller,
+            onTapPrevious: () {
+              debugPrint('onTapPrevious');
+            },
+            onTapNext: () {
+              debugPrint('onTapNext');
+            },
             onTapFullScreen: () {
               setState(() {
                 isFullScreen = true;

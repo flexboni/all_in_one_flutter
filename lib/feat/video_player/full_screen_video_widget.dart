@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 
 class FullScreenVideoWidget extends StatefulWidget {
@@ -8,10 +9,32 @@ class FullScreenVideoWidget extends StatefulWidget {
     super.key,
     required this.controller,
     required this.onTapFullScreen,
+    this.controllerHideTime = 3,
+    this.trackHeight = 20.0,
+    this.smallIconSize = 40.0,
+    this.controllerIconSize = 100.0,
+    this.thumbRadius = 15.0,
+    this.timeTextSize = 30.0,
+    this.smallIconColor = Colors.white,
+    this.controllerIconColor = Colors.white,
+    this.inactiveTrackColor,
+    this.activeTrackColor,
+    this.thumbColor = Colors.white,
   });
 
   final VideoPlayerController controller;
   final void Function() onTapFullScreen;
+  final int controllerHideTime;
+  final double trackHeight;
+  final double smallIconSize;
+  final double controllerIconSize;
+  final double thumbRadius;
+  final double timeTextSize;
+  final Color smallIconColor;
+  final Color controllerIconColor;
+  final Color? inactiveTrackColor;
+  final Color? activeTrackColor;
+  final Color thumbColor;
 
   @override
   State<FullScreenVideoWidget> createState() => _FullScreenVideoWidgetState();
@@ -21,22 +44,13 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
   bool showRemainTime = false;
   bool showController = false;
 
-  late Timer controllerTimer;
-
-  void init() async {
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    init();
-  }
+  Timer? controllerTimer;
 
   @override
   void dispose() {
-    controllerTimer.cancel();
+    if (controllerTimer != null) {
+      controllerTimer!.cancel();
+    }
     super.dispose();
   }
 
@@ -82,14 +96,19 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
           if (!showController) {
             showController = true;
 
-            controllerTimer = Timer(const Duration(seconds: 3), () {
-              setState(() {
-                showController = false;
-              });
-            });
+            controllerTimer = Timer(
+              Duration(seconds: widget.controllerHideTime),
+              () {
+                setState(() {
+                  showController = false;
+                });
+              },
+            );
           } else {
             showController = false;
-            controllerTimer.cancel();
+            if (controllerTimer != null) {
+              controllerTimer!.cancel();
+            }
           }
 
           setState(() {});
@@ -108,9 +127,13 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
               if (showController)
                 Stack(
                   children: [
+                    settingButton(),
                     Align(
                       alignment: Alignment.center,
-                      child: playButton(size: 100),
+                      child: playButton(
+                        color: widget.controllerIconColor,
+                        size: widget.controllerIconSize,
+                      ),
                     ),
                     Positioned(
                       bottom: 20,
@@ -119,14 +142,17 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            playButton(),
+                            playButton(
+                              color: widget.smallIconColor,
+                              size: widget.smallIconSize,
+                            ),
                             time(leftTime),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 10.0,
                                 ),
-                                child: progressBar(
+                                child: slider(
                                     endTime: endTime, playTime: playTime),
                               ),
                             ),
@@ -145,10 +171,10 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
                             ),
                             IconButton(
                               onPressed: widget.onTapFullScreen,
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.zoom_in_map_rounded,
                                 color: Colors.white,
-                                size: 40,
+                                size: widget.smallIconSize,
                               ),
                             ),
                           ],
@@ -156,7 +182,7 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
                       ),
                     ),
                   ],
-                )
+                ),
             ],
           ),
         ),
@@ -164,7 +190,139 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
     );
   }
 
-  IconButton playButton({Color color = Colors.white, double size = 40}) =>
+  Widget settingButton() {
+    const double borderRadius = 30.0;
+    const Color backgroundColor = Colors.black;
+    const EdgeInsets padding =
+        EdgeInsets.symmetric(horizontal: 20, vertical: 30);
+
+    Future<void> showSettingModal() async {
+      if (controllerTimer != null) {
+        controllerTimer!.cancel();
+      }
+
+      final bool? isDone = await showModalBottomSheet<bool?>(
+        context: context,
+        backgroundColor: backgroundColor,
+        builder: (_) {
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(borderRadius),
+            child: ListView(
+              padding: padding,
+              children: [
+                ListTile(
+                  onTap: () async {
+                    context.pop(false);
+
+                    final List<double> items = [
+                      0.25,
+                      0.5,
+                      0.75,
+                      1.0,
+                      1.25,
+                      1.5,
+                      1.75,
+                      2,
+                    ];
+
+                    await showModalBottomSheet(
+                      context: context,
+                      backgroundColor: backgroundColor,
+                      builder: (_) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(borderRadius),
+                          child: ListView.separated(
+                            padding: padding,
+                            itemCount: items.length,
+                            itemBuilder: (context, index) {
+                              final double item = items[index];
+                              final bool isSelected =
+                                  widget.controller.value.playbackSpeed == item;
+                              return ListTile(
+                                onTap: () {
+                                  widget.controller.setPlaybackSpeed(item);
+                                  context.pop();
+                                },
+                                selected: isSelected,
+                                selectedColor: Colors.red,
+                                title: Text(
+                                  item.toString(),
+                                  style: TextStyle(
+                                    color: widget.smallIconColor,
+                                    fontSize: widget.timeTextSize,
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (_, __) =>
+                                const SizedBox(height: 5),
+                          ),
+                        );
+                      },
+                    );
+
+                    controllerTimer = Timer(
+                      Duration(seconds: widget.controllerHideTime),
+                      () {
+                        setState(() {
+                          showController = false;
+                        });
+                      },
+                    );
+                  },
+                  leading: Icon(
+                    Icons.speed,
+                    color: widget.smallIconColor,
+                    size: widget.smallIconSize,
+                  ),
+                  title: Text(
+                    '재생 속도',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: widget.timeTextSize,
+                    ),
+                  ),
+                  trailing: Text(
+                    widget.controller.value.playbackSpeed.toString(),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: widget.timeTextSize,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+
+      if (isDone != false) {
+        controllerTimer = Timer(
+          Duration(seconds: widget.controllerHideTime),
+          () {
+            setState(() {
+              showController = false;
+            });
+          },
+        );
+      }
+    }
+
+    return Positioned(
+      top: 20,
+      right: 20,
+      child: IconButton(
+        onPressed: showSettingModal,
+        icon: Icon(
+          Icons.settings_rounded,
+          color: widget.smallIconColor,
+          size: widget.smallIconSize,
+        ),
+      ),
+    );
+  }
+
+  IconButton playButton({required Color color, required double size}) =>
       IconButton(
         onPressed: () {
           widget.controller.value.isPlaying
@@ -187,39 +345,69 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
         alignment: Alignment.center,
         child: Text(
           text,
-          style: const TextStyle(color: Colors.white, fontSize: 30),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: widget.timeTextSize,
+          ),
         ),
       );
 
-  LayoutBuilder progressBar(
-      {required Duration endTime, required Duration playTime}) {
-    const double height = 15;
-    const double radius = 15;
+  Widget slider({
+    required Duration endTime,
+    required Duration playTime,
+  }) {
+    final double percent = playTime.inMilliseconds / endTime.inMilliseconds;
+    return SliderTheme(
+      data: SliderTheme.of(context).copyWith(
+        trackHeight: widget.trackHeight,
+        thumbShape:
+            RoundSliderThumbShape(enabledThumbRadius: widget.thumbRadius),
+      ),
+      child: Slider(
+        onChanged: (double value) {
+          if (controllerTimer != null) {
+            controllerTimer!.cancel();
+          }
 
-    return LayoutBuilder(builder: (_, boxConstraints) {
-      final double percent = playTime.inMilliseconds /
-          endTime.inMilliseconds *
-          boxConstraints.maxWidth;
-      return Stack(
-        children: [
-          Container(
-            height: height,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(radius),
+          if (widget.controller.value.isPlaying) {
+            widget.controller.pause();
+          }
+
+          widget.controller.seekTo(
+            Duration(
+              milliseconds:
+                  (value * widget.controller.value.duration.inMilliseconds)
+                      .toInt(),
             ),
-          ),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            width: percent,
-            height: height,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(radius),
+          );
+        },
+        onChangeEnd: (double value) {
+          widget.controller.seekTo(
+            Duration(
+              milliseconds:
+                  (value * widget.controller.value.duration.inMilliseconds)
+                      .toInt(),
             ),
-          ),
-        ],
-      );
-    });
+          );
+
+          if (!widget.controller.value.isPlaying) {
+            widget.controller.play();
+          }
+
+          controllerTimer = Timer(
+            Duration(seconds: widget.controllerHideTime),
+            () {
+              setState(() {
+                showController = false;
+              });
+            },
+          );
+        },
+        activeColor: widget.activeTrackColor ?? Colors.grey[400],
+        inactiveColor: widget.activeTrackColor ?? Colors.grey[700],
+        thumbColor: widget.thumbColor,
+        value: percent,
+      ),
+    );
   }
 }
