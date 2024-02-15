@@ -10,6 +10,7 @@ List<RouteBase> get $appRoutes => [
       $mainRoute,
       $videoPlayerRoute,
       $flickVideoPlayerRoute,
+      $pencilRoute,
     ];
 
 RouteBase get $mainRoute => GoRouteData.$route(
@@ -68,6 +69,28 @@ extension $FlickVideoPlayerRouteExtension on FlickVideoPlayerRoute {
 
   String get location => GoRouteData.$location(
         '/flick-video-player',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $pencilRoute => GoRouteData.$route(
+      path: '/pencil',
+      factory: $PencilRouteExtension._fromState,
+    );
+
+extension $PencilRouteExtension on PencilRoute {
+  static PencilRoute _fromState(GoRouterState state) => const PencilRoute();
+
+  String get location => GoRouteData.$location(
+        '/pencil',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:all_in_one_flutter/feat/parents.dart';
+import 'package:all_in_one_flutter/core/widgets/parents.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 

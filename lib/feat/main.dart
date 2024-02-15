@@ -30,7 +30,11 @@ class _MainScreenState extends State<MainScreen> {
       ButtonModel(
         title: 'Flicker video player',
         onTap: () => const FlickVideoPlayerRoute().push(context),
-      )
+      ),
+      ButtonModel(
+        title: 'Pencil',
+        onTap: () => const PencilRoute().push(context),
+      ),
     ];
   }
 

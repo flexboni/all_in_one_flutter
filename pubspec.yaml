@@ -12,21 +12,75 @@ dependencies:
   flick_video_player: ^0.7.0
   flutter:
     sdk: flutter
+  flutter_gen: ^5.4.0
+  flutter_html: ^3.0.0-beta.2
+  flutter_math_fork: ^0.7.2
   flutter_riverpod: ^2.4.10
+  flutter_screenutil: ^5.9.0
+  flutter_svg: ^2.0.9
+  flutter_tex: ^4.0.6
+  fluttertoast: ^8.2.4
+  freezed_annotation: ^2.4.1
   go_router: ^13.2.0
   intl: ^0.19.0
+  json_annotation: ^4.8.1
+  logger: ^2.0.2+1
+  path_provider: ^2.1.2
+  pencil_kit: ^1.0.8
   riverpod_annotation: ^2.3.4
   video_player: ^2.8.2
 
 dev_dependencies:
   build_runner: ^2.4.8
   custom_lint: ^0.6.0
+  flutter_gen_runner: ^5.4.0
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  freezed: ^2.4.7
   go_router_builder: ^2.4.1
+  json_serializable: ^6.7.1
   riverpod_generator: ^2.3.11
   riverpod_lint: ^2.3.9
 
+flutter_gen:
+  integrations:
+    flutter_svg: true
+
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/fonts/
+    - assets/icons/pencil/
+    - assets/images/pencil/
+    - assets/json/
+
+  fonts:
+    - family: NanumMyeongjo
+      fonts:
+        - asset: assets/fonts/NanumMyeongjo.ttf
+    - family: KaTeX_Main
+      fonts:
+        - asset: assets/fonts/KaTeX_Main-Regular.ttf
+    - family: KaTeX_Main_Italic
+      fonts:
+        - asset: assets/fonts/KaTeX_Main-Italic.ttf
+    - family: LatinModern
+      fonts:
+        - asset: assets/fonts/latinmodern-math.otf
+    - family: PretendardBold
+      fonts:
+        - asset: assets/fonts/Pretendard-Bold.ttf
+    - family: PretendardLight
+      fonts:
+        - asset: assets/fonts/Pretendard-Light.ttf
+    - family: PretendardMedium
+      fonts:
+        - asset: assets/fonts/Pretendard-Medium.ttf
+    - family: Pretendard
+      fonts:
+        - asset: assets/fonts/Pretendard-Regular.ttf
+    - family: MidCustomIcons
+      fonts:
+        - asset: assets/fonts/MidCustomIcons.ttf

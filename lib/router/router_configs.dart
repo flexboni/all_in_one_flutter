@@ -1,5 +1,6 @@
 import 'package:all_in_one_flutter/feat/flick_video_player_screen.dart';
 import 'package:all_in_one_flutter/feat/main.dart';
+import 'package:all_in_one_flutter/feat/pencil/screen/pencil_screen.dart';
 import 'package:all_in_one_flutter/feat/video_player/video_player_screen.dart';
 import 'package:all_in_one_flutter/router/router_listenable.dart';
 import 'package:flutter/material.dart';
@@ -58,5 +59,17 @@ class FlickVideoPlayerRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const FlickVideoPlayerScreen();
+  }
+}
+
+@TypedGoRoute<PencilRoute>(path: PencilRoute.path)
+class PencilRoute extends GoRouteData {
+  const PencilRoute();
+
+  static const path = '/pencil';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const PencilScreen();
   }
 }
