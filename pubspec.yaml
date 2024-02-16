@@ -8,7 +8,9 @@ environment:
   sdk: ">=3.2.5 <4.0.0"
 
 dependencies:
+  collection: ^1.18.0
   cupertino_icons: ^1.0.2
+  drag_and_drop_lists: ^0.3.3
   flick_video_player: ^0.7.0
   flutter:
     sdk: flutter

@@ -98,11 +98,14 @@ class $AssetsImagesGen {
 class $AssetsJsonGen {
   const $AssetsJsonGen();
 
+  /// File path: assets/json/curriculum.json
+  String get curriculum => 'assets/json/curriculum.json';
+
   /// File path: assets/json/problems.json
   String get problems => 'assets/json/problems.json';
 
   /// List of all assets
-  List<String> get values => [problems];
+  List<String> get values => [curriculum, problems];
 }
 
 class $AssetsIconsPencilGen {

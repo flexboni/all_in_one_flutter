@@ -1,5 +1,6 @@
+import 'package:all_in_one_flutter/feat/drag_drop/screen/drag_drap_screen.dart';
 import 'package:all_in_one_flutter/feat/flick_video_player_screen.dart';
-import 'package:all_in_one_flutter/feat/main.dart';
+import 'package:all_in_one_flutter/feat/main_screen.dart';
 import 'package:all_in_one_flutter/feat/pencil/screen/pencil_screen.dart';
 import 'package:all_in_one_flutter/feat/video_player/video_player_screen.dart';
 import 'package:all_in_one_flutter/router/router_listenable.dart';
@@ -38,6 +39,30 @@ class MainRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<DragDropRoute>(path: DragDropRoute.path)
+class DragDropRoute extends GoRouteData {
+  const DragDropRoute();
+
+  static const path = '/drag-drop';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const DragDropScreen();
+  }
+}
+
+@TypedGoRoute<PencilRoute>(path: PencilRoute.path)
+class PencilRoute extends GoRouteData {
+  const PencilRoute();
+
+  static const path = '/pencil';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const PencilScreen();
+  }
+}
+
 @TypedGoRoute<VideoPlayerRoute>(path: VideoPlayerRoute.path)
 class VideoPlayerRoute extends GoRouteData {
   const VideoPlayerRoute();
@@ -59,17 +84,5 @@ class FlickVideoPlayerRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const FlickVideoPlayerScreen();
-  }
-}
-
-@TypedGoRoute<PencilRoute>(path: PencilRoute.path)
-class PencilRoute extends GoRouteData {
-  const PencilRoute();
-
-  static const path = '/pencil';
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const PencilScreen();
   }
 }

@@ -8,9 +8,10 @@ part of 'router_configs.dart';
 
 List<RouteBase> get $appRoutes => [
       $mainRoute,
+      $dragDropRoute,
+      $pencilRoute,
       $videoPlayerRoute,
       $flickVideoPlayerRoute,
-      $pencilRoute,
     ];
 
 RouteBase get $mainRoute => GoRouteData.$route(
@@ -23,6 +24,50 @@ extension $MainRouteExtension on MainRoute {
 
   String get location => GoRouteData.$location(
         '/main',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $dragDropRoute => GoRouteData.$route(
+      path: '/drag-drop',
+      factory: $DragDropRouteExtension._fromState,
+    );
+
+extension $DragDropRouteExtension on DragDropRoute {
+  static DragDropRoute _fromState(GoRouterState state) => const DragDropRoute();
+
+  String get location => GoRouteData.$location(
+        '/drag-drop',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $pencilRoute => GoRouteData.$route(
+      path: '/pencil',
+      factory: $PencilRouteExtension._fromState,
+    );
+
+extension $PencilRouteExtension on PencilRoute {
+  static PencilRoute _fromState(GoRouterState state) => const PencilRoute();
+
+  String get location => GoRouteData.$location(
+        '/pencil',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -69,28 +114,6 @@ extension $FlickVideoPlayerRouteExtension on FlickVideoPlayerRoute {
 
   String get location => GoRouteData.$location(
         '/flick-video-player',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-RouteBase get $pencilRoute => GoRouteData.$route(
-      path: '/pencil',
-      factory: $PencilRouteExtension._fromState,
-    );
-
-extension $PencilRouteExtension on PencilRoute {
-  static PencilRoute _fromState(GoRouterState state) => const PencilRoute();
-
-  String get location => GoRouteData.$location(
-        '/pencil',
       );
 
   void go(BuildContext context) => context.go(location);

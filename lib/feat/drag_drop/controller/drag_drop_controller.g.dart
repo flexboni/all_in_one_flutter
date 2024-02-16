@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pencil_controller.dart';
+part of 'drag_drop_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pencilControllerHash() => r'e0c826e1c6274dfee9912d16d281eaa4836e107f';
+String _$dragDropControllerHash() =>
+    r'2ff805a3bfd5fb40249535af673a0b98fb194284';
 
-/// See also [PencilController].
-@ProviderFor(PencilController)
-final pencilControllerProvider =
-    AutoDisposeAsyncNotifierProvider<PencilController, PencilState>.internal(
-  PencilController.new,
-  name: r'pencilControllerProvider',
+/// See also [DragDropController].
+@ProviderFor(DragDropController)
+final dragDropControllerProvider = AutoDisposeAsyncNotifierProvider<
+    DragDropController, DragDropState>.internal(
+  DragDropController.new,
+  name: r'dragDropControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$pencilControllerHash,
+      : _$dragDropControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$PencilController = AutoDisposeAsyncNotifier<PencilState>;
+typedef _$DragDropController = AutoDisposeAsyncNotifier<DragDropState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
