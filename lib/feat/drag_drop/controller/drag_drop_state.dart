@@ -5,8 +5,13 @@ part 'drag_drop_state.freezed.dart';
 
 @freezed
 class DragDropState with _$DragDropState {
-  const factory DragDropState({required List<CurriculumData> curriculumDatas}) =
-      _DragDropState;
+  const factory DragDropState({
+    required List<CurriculumData> subjectList,
+    required List<CurriculumData> todyLearnList,
+  }) = _DragDropState;
 
-  factory DragDropState.initial() => const DragDropState(curriculumDatas: []);
+  factory DragDropState.initial() => const DragDropState(
+        subjectList: [],
+        todyLearnList: [],
+      );
 }

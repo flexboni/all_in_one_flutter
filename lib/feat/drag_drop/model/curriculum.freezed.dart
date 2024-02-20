@@ -21,10 +21,11 @@ Curriculum _$CurriculumFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Curriculum {
   String get code => throw _privateConstructorUsedError;
-  String get grade => throw _privateConstructorUsedError;
+  CurriculumType get type => throw _privateConstructorUsedError;
+  String? get grade => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
-  int get day => throw _privateConstructorUsedError;
+  int? get day => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,7 +39,13 @@ abstract class $CurriculumCopyWith<$Res> {
           Curriculum value, $Res Function(Curriculum) then) =
       _$CurriculumCopyWithImpl<$Res, Curriculum>;
   @useResult
-  $Res call({String code, String grade, String title, int count, int day});
+  $Res call(
+      {String code,
+      CurriculumType type,
+      String? grade,
+      String title,
+      int count,
+      int? day});
 }
 
 /// @nodoc
@@ -55,20 +62,25 @@ class _$CurriculumCopyWithImpl<$Res, $Val extends Curriculum>
   @override
   $Res call({
     Object? code = null,
-    Object? grade = null,
+    Object? type = null,
+    Object? grade = freezed,
     Object? title = null,
     Object? count = null,
-    Object? day = null,
+    Object? day = freezed,
   }) {
     return _then(_value.copyWith(
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      grade: null == grade
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurriculumType,
+      grade: freezed == grade
           ? _value.grade
           : grade // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -77,10 +89,10 @@ class _$CurriculumCopyWithImpl<$Res, $Val extends Curriculum>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
-      day: null == day
+      day: freezed == day
           ? _value.day
           : day // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ) as $Val);
   }
 }
@@ -93,7 +105,13 @@ abstract class _$$CurriculumImplCopyWith<$Res>
       __$$CurriculumImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String code, String grade, String title, int count, int day});
+  $Res call(
+      {String code,
+      CurriculumType type,
+      String? grade,
+      String title,
+      int count,
+      int? day});
 }
 
 /// @nodoc
@@ -108,20 +126,25 @@ class __$$CurriculumImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? code = null,
-    Object? grade = null,
+    Object? type = null,
+    Object? grade = freezed,
     Object? title = null,
     Object? count = null,
-    Object? day = null,
+    Object? day = freezed,
   }) {
     return _then(_$CurriculumImpl(
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      grade: null == grade
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurriculumType,
+      grade: freezed == grade
           ? _value.grade
           : grade // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -130,10 +153,10 @@ class __$$CurriculumImplCopyWithImpl<$Res>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
-      day: null == day
+      day: freezed == day
           ? _value.day
           : day // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -143,10 +166,11 @@ class __$$CurriculumImplCopyWithImpl<$Res>
 class _$CurriculumImpl implements _Curriculum {
   const _$CurriculumImpl(
       {required this.code,
-      required this.grade,
+      required this.type,
+      this.grade,
       required this.title,
       required this.count,
-      required this.day});
+      this.day});
 
   factory _$CurriculumImpl.fromJson(Map<String, dynamic> json) =>
       _$$CurriculumImplFromJson(json);
@@ -154,17 +178,19 @@ class _$CurriculumImpl implements _Curriculum {
   @override
   final String code;
   @override
-  final String grade;
+  final CurriculumType type;
+  @override
+  final String? grade;
   @override
   final String title;
   @override
   final int count;
   @override
-  final int day;
+  final int? day;
 
   @override
   String toString() {
-    return 'Curriculum(code: $code, grade: $grade, title: $title, count: $count, day: $day)';
+    return 'Curriculum(code: $code, type: $type, grade: $grade, title: $title, count: $count, day: $day)';
   }
 
   @override
@@ -173,6 +199,7 @@ class _$CurriculumImpl implements _Curriculum {
         (other.runtimeType == runtimeType &&
             other is _$CurriculumImpl &&
             (identical(other.code, code) || other.code == code) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.grade, grade) || other.grade == grade) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.count, count) || other.count == count) &&
@@ -181,7 +208,8 @@ class _$CurriculumImpl implements _Curriculum {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, code, grade, title, count, day);
+  int get hashCode =>
+      Object.hash(runtimeType, code, type, grade, title, count, day);
 
   @JsonKey(ignore: true)
   @override
@@ -200,10 +228,11 @@ class _$CurriculumImpl implements _Curriculum {
 abstract class _Curriculum implements Curriculum {
   const factory _Curriculum(
       {required final String code,
-      required final String grade,
+      required final CurriculumType type,
+      final String? grade,
       required final String title,
       required final int count,
-      required final int day}) = _$CurriculumImpl;
+      final int? day}) = _$CurriculumImpl;
 
   factory _Curriculum.fromJson(Map<String, dynamic> json) =
       _$CurriculumImpl.fromJson;
@@ -211,13 +240,15 @@ abstract class _Curriculum implements Curriculum {
   @override
   String get code;
   @override
-  String get grade;
+  CurriculumType get type;
+  @override
+  String? get grade;
   @override
   String get title;
   @override
   int get count;
   @override
-  int get day;
+  int? get day;
   @override
   @JsonKey(ignore: true)
   _$$CurriculumImplCopyWith<_$CurriculumImpl> get copyWith =>

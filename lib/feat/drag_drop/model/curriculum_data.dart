@@ -7,7 +7,7 @@ part 'curriculum_data.g.dart';
 @freezed
 class CurriculumData with _$CurriculumData {
   const factory CurriculumData({
-    required int day,
+    required String title,
     required List<Curriculum> items,
   }) = _CurriculumData;
 

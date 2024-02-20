@@ -20,7 +20,7 @@ CurriculumData _$CurriculumDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CurriculumData {
-  int get day => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
   List<Curriculum> get items => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $CurriculumDataCopyWith<$Res> {
           CurriculumData value, $Res Function(CurriculumData) then) =
       _$CurriculumDataCopyWithImpl<$Res, CurriculumData>;
   @useResult
-  $Res call({int day, List<Curriculum> items});
+  $Res call({String title, List<Curriculum> items});
 }
 
 /// @nodoc
@@ -51,14 +51,14 @@ class _$CurriculumDataCopyWithImpl<$Res, $Val extends CurriculumData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? day = null,
+    Object? title = null,
     Object? items = null,
   }) {
     return _then(_value.copyWith(
-      day: null == day
-          ? _value.day
-          : day // ignore: cast_nullable_to_non_nullable
-              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
       items: null == items
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
@@ -75,7 +75,7 @@ abstract class _$$CurriculumDataImplCopyWith<$Res>
       __$$CurriculumDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int day, List<Curriculum> items});
+  $Res call({String title, List<Curriculum> items});
 }
 
 /// @nodoc
@@ -89,14 +89,14 @@ class __$$CurriculumDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? day = null,
+    Object? title = null,
     Object? items = null,
   }) {
     return _then(_$CurriculumDataImpl(
-      day: null == day
-          ? _value.day
-          : day // ignore: cast_nullable_to_non_nullable
-              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -109,14 +109,14 @@ class __$$CurriculumDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CurriculumDataImpl implements _CurriculumData {
   const _$CurriculumDataImpl(
-      {required this.day, required final List<Curriculum> items})
+      {required this.title, required final List<Curriculum> items})
       : _items = items;
 
   factory _$CurriculumDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$CurriculumDataImplFromJson(json);
 
   @override
-  final int day;
+  final String title;
   final List<Curriculum> _items;
   @override
   List<Curriculum> get items {
@@ -127,7 +127,7 @@ class _$CurriculumDataImpl implements _CurriculumData {
 
   @override
   String toString() {
-    return 'CurriculumData(day: $day, items: $items)';
+    return 'CurriculumData(title: $title, items: $items)';
   }
 
   @override
@@ -135,14 +135,14 @@ class _$CurriculumDataImpl implements _CurriculumData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CurriculumDataImpl &&
-            (identical(other.day, day) || other.day == day) &&
+            (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other._items, _items));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, day, const DeepCollectionEquality().hash(_items));
+      runtimeType, title, const DeepCollectionEquality().hash(_items));
 
   @JsonKey(ignore: true)
   @override
@@ -161,14 +161,14 @@ class _$CurriculumDataImpl implements _CurriculumData {
 
 abstract class _CurriculumData implements CurriculumData {
   const factory _CurriculumData(
-      {required final int day,
+      {required final String title,
       required final List<Curriculum> items}) = _$CurriculumDataImpl;
 
   factory _CurriculumData.fromJson(Map<String, dynamic> json) =
       _$CurriculumDataImpl.fromJson;
 
   @override
-  int get day;
+  String get title;
   @override
   List<Curriculum> get items;
   @override

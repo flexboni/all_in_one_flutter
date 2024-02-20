@@ -1,9 +1,12 @@
 import 'package:all_in_one_flutter/core/widgets/widgets.dart';
 import 'package:all_in_one_flutter/feat/drag_drop/controller/drag_drop_controller.dart';
+import 'package:all_in_one_flutter/feat/drag_drop/model/curriculum.dart';
 import 'package:all_in_one_flutter/feat/drag_drop/screen/views/drag_drap_list_item.dart';
+import 'package:all_in_one_flutter/gen/assets.gen.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DragDropScreen extends ConsumerStatefulWidget {
   const DragDropScreen({super.key});
@@ -18,21 +21,51 @@ class _DragDropScreenState extends ConsumerState<DragDropScreen> {
 
   void init() {
     ref.listenManual(
-      dragDropControllerProvider
-          .select((value) => value.value?.curriculumDatas),
+      dragDropControllerProvider.select((value) => value.value?.subjectList),
       (previous, next) {
         if (next != null && previous != next) {
           _leftItems = next
               .map(
                 (e) => DragAndDropList(
-                  header: Center(child: Text('${e.day}')),
+                  header: Center(child: Text(e.title)),
                   children: e.items
                       .map(
                         (item) => DragAndDropItem(
                           child: DragDropListItem(
+                            type: item.type,
                             title: item.title,
                             grade: item.grade,
-                            day: e.day,
+                            count: item.count,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              )
+              .toList();
+
+          setState(() {});
+        }
+      },
+    );
+
+    ref.listenManual(
+      dragDropControllerProvider.select((value) => value.value?.todyLearnList),
+      (previous, next) {
+        if (next != null && previous != next) {
+          _rightItems = next
+              .map(
+                (e) => DragAndDropList(
+                  header: Center(child: Text(e.title)),
+                  children: e.items
+                      .map(
+                        (item) => DragAndDropItem(
+                          child: DragDropListItem(
+                            isRequired: item.type == CurriculumType.lecture,
+                            type: item.type,
+                            title: item.title,
+                            grade: item.grade,
+                            count: item.count,
                           ),
                         ),
                       )
@@ -58,53 +91,37 @@ class _DragDropScreenState extends ConsumerState<DragDropScreen> {
   Widget build(BuildContext context) {
     return Parents(
       title: 'Drag and Drop',
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: DragAndDropLists(
-                    children: _leftItems,
-                    onItemReorder: (
-                      oldItemIndex,
-                      oldListIndex,
-                      newItemIndex,
-                      newListIndex,
-                    ) {},
-                    onListReorder: (oldListIndex, newListIndex) {},
-                  ),
-                ),
-              ),
-              Container(
-                width: 1,
-                height: double.maxFinite,
-                color: Colors.black,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: DragAndDropLists(
-                    children: _rightItems,
-                    onItemReorder: (
-                      oldItemIndex,
-                      oldListIndex,
-                      newItemIndex,
-                      newListIndex,
-                    ) {},
-                    onListReorder: (oldListIndex, newListIndex) {},
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.keyboard_arrow_right_rounded),
-              ),
-            ],
+      body: DragAndDropLists(
+        children: _leftItems,
+        axis: Axis.horizontal,
+        listWidth: MediaQuery.of(context).size.width * 0.5,
+        listPadding: EdgeInsets.symmetric(horizontal: 16.w),
+        listDivider: Container(
+          width: 1,
+          height: MediaQuery.of(context).size.height,
+          color: Colors.black,
+          alignment: Alignment.center,
+          child: Container(
+            padding: EdgeInsets.all(6.w),
+            decoration: BoxDecoration(border: Border.all()),
+            child: Assets.icons.dragDrop.icNextSlide24.svg(),
           ),
-        ],
+        ),
+        itemOnWillAccept: (incoming, target) {
+          // Drop 전에 Ghost 리스트 변화 없애려고 사용함
+          return false;
+        },
+        itemTargetOnWillAccept: (incoming, target) {
+          // Drop 전에 Ghost 리스트 변화 없애려고 사용함
+          return false;
+        },
+        onItemReorder: (
+          oldItemIndex,
+          oldListIndex,
+          newItemIndex,
+          newListIndex,
+        ) {},
+        onListReorder: (oldListIndex, newListIndex) {},
       ),
     );
   }

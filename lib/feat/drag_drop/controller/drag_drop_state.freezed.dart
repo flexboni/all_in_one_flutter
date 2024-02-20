@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DragDropState {
-  List<CurriculumData> get curriculumDatas =>
-      throw _privateConstructorUsedError;
+  List<CurriculumData> get subjectList => throw _privateConstructorUsedError;
+  List<CurriculumData> get todyLearnList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DragDropStateCopyWith<DragDropState> get copyWith =>
@@ -30,7 +30,8 @@ abstract class $DragDropStateCopyWith<$Res> {
           DragDropState value, $Res Function(DragDropState) then) =
       _$DragDropStateCopyWithImpl<$Res, DragDropState>;
   @useResult
-  $Res call({List<CurriculumData> curriculumDatas});
+  $Res call(
+      {List<CurriculumData> subjectList, List<CurriculumData> todyLearnList});
 }
 
 /// @nodoc
@@ -46,12 +47,17 @@ class _$DragDropStateCopyWithImpl<$Res, $Val extends DragDropState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? curriculumDatas = null,
+    Object? subjectList = null,
+    Object? todyLearnList = null,
   }) {
     return _then(_value.copyWith(
-      curriculumDatas: null == curriculumDatas
-          ? _value.curriculumDatas
-          : curriculumDatas // ignore: cast_nullable_to_non_nullable
+      subjectList: null == subjectList
+          ? _value.subjectList
+          : subjectList // ignore: cast_nullable_to_non_nullable
+              as List<CurriculumData>,
+      todyLearnList: null == todyLearnList
+          ? _value.todyLearnList
+          : todyLearnList // ignore: cast_nullable_to_non_nullable
               as List<CurriculumData>,
     ) as $Val);
   }
@@ -65,7 +71,8 @@ abstract class _$$DragDropStateImplCopyWith<$Res>
       __$$DragDropStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<CurriculumData> curriculumDatas});
+  $Res call(
+      {List<CurriculumData> subjectList, List<CurriculumData> todyLearnList});
 }
 
 /// @nodoc
@@ -79,12 +86,17 @@ class __$$DragDropStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? curriculumDatas = null,
+    Object? subjectList = null,
+    Object? todyLearnList = null,
   }) {
     return _then(_$DragDropStateImpl(
-      curriculumDatas: null == curriculumDatas
-          ? _value._curriculumDatas
-          : curriculumDatas // ignore: cast_nullable_to_non_nullable
+      subjectList: null == subjectList
+          ? _value._subjectList
+          : subjectList // ignore: cast_nullable_to_non_nullable
+              as List<CurriculumData>,
+      todyLearnList: null == todyLearnList
+          ? _value._todyLearnList
+          : todyLearnList // ignore: cast_nullable_to_non_nullable
               as List<CurriculumData>,
     ));
   }
@@ -94,20 +106,30 @@ class __$$DragDropStateImplCopyWithImpl<$Res>
 
 class _$DragDropStateImpl implements _DragDropState {
   const _$DragDropStateImpl(
-      {required final List<CurriculumData> curriculumDatas})
-      : _curriculumDatas = curriculumDatas;
+      {required final List<CurriculumData> subjectList,
+      required final List<CurriculumData> todyLearnList})
+      : _subjectList = subjectList,
+        _todyLearnList = todyLearnList;
 
-  final List<CurriculumData> _curriculumDatas;
+  final List<CurriculumData> _subjectList;
   @override
-  List<CurriculumData> get curriculumDatas {
-    if (_curriculumDatas is EqualUnmodifiableListView) return _curriculumDatas;
+  List<CurriculumData> get subjectList {
+    if (_subjectList is EqualUnmodifiableListView) return _subjectList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_curriculumDatas);
+    return EqualUnmodifiableListView(_subjectList);
+  }
+
+  final List<CurriculumData> _todyLearnList;
+  @override
+  List<CurriculumData> get todyLearnList {
+    if (_todyLearnList is EqualUnmodifiableListView) return _todyLearnList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_todyLearnList);
   }
 
   @override
   String toString() {
-    return 'DragDropState(curriculumDatas: $curriculumDatas)';
+    return 'DragDropState(subjectList: $subjectList, todyLearnList: $todyLearnList)';
   }
 
   @override
@@ -116,12 +138,16 @@ class _$DragDropStateImpl implements _DragDropState {
         (other.runtimeType == runtimeType &&
             other is _$DragDropStateImpl &&
             const DeepCollectionEquality()
-                .equals(other._curriculumDatas, _curriculumDatas));
+                .equals(other._subjectList, _subjectList) &&
+            const DeepCollectionEquality()
+                .equals(other._todyLearnList, _todyLearnList));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_curriculumDatas));
+      runtimeType,
+      const DeepCollectionEquality().hash(_subjectList),
+      const DeepCollectionEquality().hash(_todyLearnList));
 
   @JsonKey(ignore: true)
   @override
@@ -132,11 +158,13 @@ class _$DragDropStateImpl implements _DragDropState {
 
 abstract class _DragDropState implements DragDropState {
   const factory _DragDropState(
-          {required final List<CurriculumData> curriculumDatas}) =
-      _$DragDropStateImpl;
+      {required final List<CurriculumData> subjectList,
+      required final List<CurriculumData> todyLearnList}) = _$DragDropStateImpl;
 
   @override
-  List<CurriculumData> get curriculumDatas;
+  List<CurriculumData> get subjectList;
+  @override
+  List<CurriculumData> get todyLearnList;
   @override
   @JsonKey(ignore: true)
   _$$DragDropStateImplCopyWith<_$DragDropStateImpl> get copyWith =>

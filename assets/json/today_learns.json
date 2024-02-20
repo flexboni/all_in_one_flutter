@@ -1,0 +1,47 @@
+{
+  "data": [
+    {
+      "title": "강의",
+      "items": [
+        {
+          "code": "1",
+          "type": "lecture",
+          "grade": "A",
+          "title": "삼각형의 무게중심",
+          "count": 0,
+          "day": 300
+        },
+        {
+          "code": "2",
+          "type": "lecture",
+          "grade": "B",
+          "title": "삼각형의 무게중심과 넓이",
+          "count": 1,
+          "day": 300
+        }
+      ]
+    },
+    {
+      "title": "대단원 테스트",
+      "items": [
+        {
+          "code": "1",
+          "type": "problem",
+          "title": "11월 17일 금요일 테스트",
+          "count": 30
+        }
+      ]
+    },
+    {
+      "title": "연습문제",
+      "items": [
+        {
+          "code": "1",
+          "type": "problem",
+          "title": "연습문제",
+          "count": 20
+        }
+      ]
+    }
+  ]
+}

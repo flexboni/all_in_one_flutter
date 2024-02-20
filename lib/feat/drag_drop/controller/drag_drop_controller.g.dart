@@ -7,7 +7,7 @@ part of 'drag_drop_controller.dart';
 // **************************************************************************
 
 String _$dragDropControllerHash() =>
-    r'2ff805a3bfd5fb40249535af673a0b98fb194284';
+    r'749a8b9cd2a4b6195c336f97cd8ce6c2e6daa3dd';
 
 /// See also [DragDropController].
 @ProviderFor(DragDropController)

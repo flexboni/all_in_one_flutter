@@ -86,26 +86,42 @@ class $AssetsFontsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  $AssetsIconsDragDropGen get dragDrop => const $AssetsIconsDragDropGen();
   $AssetsIconsPencilGen get pencil => const $AssetsIconsPencilGen();
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesDragDropGen get dragDrop => const $AssetsImagesDragDropGen();
   $AssetsImagesPencilGen get pencil => const $AssetsImagesPencilGen();
 }
 
 class $AssetsJsonGen {
   const $AssetsJsonGen();
 
-  /// File path: assets/json/curriculum.json
-  String get curriculum => 'assets/json/curriculum.json';
-
   /// File path: assets/json/problems.json
   String get problems => 'assets/json/problems.json';
 
+  /// File path: assets/json/subjects.json
+  String get subjects => 'assets/json/subjects.json';
+
+  /// File path: assets/json/today_learns.json
+  String get todayLearns => 'assets/json/today_learns.json';
+
   /// List of all assets
-  List<String> get values => [curriculum, problems];
+  List<String> get values => [problems, subjects, todayLearns];
+}
+
+class $AssetsIconsDragDropGen {
+  const $AssetsIconsDragDropGen();
+
+  /// File path: assets/icons/drag_drop/ic_next_slide_24.svg
+  SvgGenImage get icNextSlide24 =>
+      const SvgGenImage('assets/icons/drag_drop/ic_next_slide_24.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [icNextSlide24];
 }
 
 class $AssetsIconsPencilGen {
@@ -117,6 +133,17 @@ class $AssetsIconsPencilGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [horizontalBar];
+}
+
+class $AssetsImagesDragDropGen {
+  const $AssetsImagesDragDropGen();
+
+  /// File path: assets/images/drag_drop/ic_badge.png
+  AssetGenImage get icBadge =>
+      const AssetGenImage('assets/images/drag_drop/ic_badge.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [icBadge];
 }
 
 class $AssetsImagesPencilGen {

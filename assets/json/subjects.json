@@ -1,10 +1,11 @@
 {
   "data": [
     {
-      "day": 300,
+      "title": "D-300",
       "items": [
         {
           "code": "1",
+          "type": "lecture",
           "grade": "A",
           "title": "삼각형의 무게중심",
           "count": 0,
@@ -12,6 +13,7 @@
         },
         {
           "code": "2",
+          "type": "lecture",
           "grade": "B",
           "title": "삼각형의 무게중심과 넓이",
           "count": 1,
@@ -20,10 +22,11 @@
       ]
     },
     {
-      "day": 299,
+      "title": "D-299",
       "items": [
         {
           "code": "3",
+          "type": "lecture",
           "grade": "B",
           "title": "소인수분해를 이용하여 최대공약수 구하기",
           "count": 0,
@@ -31,6 +34,7 @@
         },
         {
           "code": "4",
+          "type": "lecture",
           "grade": "A+",
           "title": "공배수와 최소공배수",
           "count": 2,
@@ -38,6 +42,7 @@
         },
         {
           "code": "5",
+          "type": "lecture",
           "grade": "A+",
           "title": "소인수분해를 이용하여 최소공배수 구하기",
           "count": 1,
@@ -45,6 +50,7 @@
         },
         {
           "code": "6",
+          "type": "lecture",
           "grade": "A-",
           "title": "최대공약수와 최소공배수의 활용",
           "count": 1,
@@ -53,10 +59,11 @@
       ]
     },
     {
-      "day": 298,
+      "title": "D-298",
       "items": [
         {
           "code": "7",
+          "type": "lecture",
           "grade": "B-",
           "title": "소인수분해를 이용하여 약수 구하기",
           "count": 1,
@@ -64,6 +71,7 @@
         },
         {
           "code": "8",
+          "type": "lecture",
           "grade": "C+",
           "title": "공약수와 최대공약수",
           "count": 0,
@@ -71,6 +79,7 @@
         },
         {
           "code": "9",
+          "type": "lecture",
           "grade": "C",
           "title": "양수와 음수",
           "count": 0,
