@@ -113,6 +113,22 @@ class $AssetsJsonGen {
   List<String> get values => [problems, subjects, todayLearns];
 }
 
+class $AssetsPdfGen {
+  const $AssetsPdfGen();
+
+  /// File path: assets/pdf/problem-cropped.pdf
+  String get problemCropped => 'assets/pdf/problem-cropped.pdf';
+
+  /// File path: assets/pdf/problem.pdf
+  String get problem => 'assets/pdf/problem.pdf';
+
+  /// File path: assets/pdf/problem_4.pdf
+  String get problem4 => 'assets/pdf/problem_4.pdf';
+
+  /// List of all assets
+  List<String> get values => [problemCropped, problem, problem4];
+}
+
 class $AssetsIconsDragDropGen {
   const $AssetsIconsDragDropGen();
 
@@ -311,6 +327,7 @@ class Assets {
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsJsonGen json = $AssetsJsonGen();
+  static const $AssetsPdfGen pdf = $AssetsPdfGen();
 }
 
 class AssetGenImage {

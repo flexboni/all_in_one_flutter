@@ -28,6 +28,10 @@ class _MainScreenState extends State<MainScreen> {
         onTap: () => const DragDropRoute().push(context),
       ),
       ButtonModel(
+        title: 'PDF',
+        onTap: () => const PDFRoute().push(context),
+      ),
+      ButtonModel(
         title: 'Pencil',
         onTap: () => const PencilRoute().push(context),
       ),

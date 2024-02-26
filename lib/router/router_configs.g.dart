@@ -9,6 +9,7 @@ part of 'router_configs.dart';
 List<RouteBase> get $appRoutes => [
       $mainRoute,
       $dragDropRoute,
+      $pDFRoute,
       $pencilRoute,
       $videoPlayerRoute,
       $flickVideoPlayerRoute,
@@ -46,6 +47,28 @@ extension $DragDropRouteExtension on DragDropRoute {
 
   String get location => GoRouteData.$location(
         '/drag-drop',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $pDFRoute => GoRouteData.$route(
+      path: '/pdf',
+      factory: $PDFRouteExtension._fromState,
+    );
+
+extension $PDFRouteExtension on PDFRoute {
+  static PDFRoute _fromState(GoRouterState state) => const PDFRoute();
+
+  String get location => GoRouteData.$location(
+        '/pdf',
       );
 
   void go(BuildContext context) => context.go(location);

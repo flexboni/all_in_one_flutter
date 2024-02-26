@@ -1,6 +1,4 @@
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 
 class FlickVideoPlayerScreen extends StatefulWidget {
   const FlickVideoPlayerScreen({super.key});
@@ -10,25 +8,25 @@ class FlickVideoPlayerScreen extends StatefulWidget {
 }
 
 class _FlickVideoPlayerScreenState extends State<FlickVideoPlayerScreen> {
-  late FlickManager flickManager;
+  // late FlickManager flickManager;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    flickManager = FlickManager(
-      videoPlayerController: VideoPlayerController.networkUrl(
-        Uri.parse(
-            'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'),
-      ),
-    );
-  }
+  //   flickManager = FlickManager(
+  //     videoPlayerController: VideoPlayerController.networkUrl(
+  //       Uri.parse(
+  //           'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'),
+  //     ),
+  //   );
+  // }
 
-  @override
-  void dispose() {
-    flickManager.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   flickManager.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -41,34 +39,34 @@ class _FlickVideoPlayerScreenState extends State<FlickVideoPlayerScreen> {
         alignment: Alignment.topCenter,
         child: Column(
           children: [
-            SizedBox(
-              width: size.width * 0.5,
-              child: FlickVideoPlayer(flickManager: flickManager),
-            ),
-            const SizedBox(height: 50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    flickManager.flickControlManager?.play();
-                  },
-                  icon: const Icon(Icons.play_arrow),
-                ),
-                IconButton(
-                  onPressed: () {
-                    flickManager.flickControlManager?.pause();
-                  },
-                  icon: const Icon(Icons.pause),
-                ),
-                IconButton(
-                  onPressed: () {
-                    flickManager.flickDisplayManager!.hidePlayerControls();
-                  },
-                  icon: const Icon(Icons.hide_image),
-                ),
-              ],
-            ),
+            // SizedBox(
+            //   width: size.width * 0.5,
+            //   child: FlickVideoPlayer(flickManager: flickManager),
+            // ),
+            // const SizedBox(height: 50),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     IconButton(
+            //       onPressed: () {
+            //         flickManager.flickControlManager?.play();
+            //       },
+            //       icon: const Icon(Icons.play_arrow),
+            //     ),
+            //     IconButton(
+            //       onPressed: () {
+            //         flickManager.flickControlManager?.pause();
+            //       },
+            //       icon: const Icon(Icons.pause),
+            //     ),
+            //     IconButton(
+            //       onPressed: () {
+            //         flickManager.flickDisplayManager!.hidePlayerControls();
+            //       },
+            //       icon: const Icon(Icons.hide_image),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
