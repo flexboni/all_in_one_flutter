@@ -51,7 +51,7 @@ class _PencilScreenState extends ConsumerState<PencilScreen>
               ref.read(pencilControllerProvider).value?.exam.questions[next];
           if (question != null && _controller != null) {
             final String path =
-                await FileUtils.createPath(endpoint: question.code);
+                await FileUtils.createDocumentPath(endpoint: question.code);
             _controller!.load(uri: path, withBase64Data: true);
           }
         }
@@ -160,7 +160,7 @@ class _PencilScreenState extends ConsumerState<PencilScreen>
     Future<void> onSaveData(int index) async {
       final Question question = exam.questions[currentIndex];
       final String path =
-          await FileUtils.createPath(endpoint: '${question.code}');
+          await FileUtils.createDocumentPath(endpoint: '${question.code}');
       final String? write =
           await _controller!.save(uri: path, withBase64Data: true);
 

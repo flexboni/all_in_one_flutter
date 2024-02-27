@@ -9,7 +9,9 @@ part of 'router_configs.dart';
 List<RouteBase> get $appRoutes => [
       $mainRoute,
       $dragDropRoute,
-      $pDFRoute,
+      $pdfXRoute,
+      $easyPDFRoute,
+      $flutterPDFRoute,
       $pencilRoute,
       $videoPlayerRoute,
       $flickVideoPlayerRoute,
@@ -59,16 +61,61 @@ extension $DragDropRouteExtension on DragDropRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $pDFRoute => GoRouteData.$route(
-      path: '/pdf',
-      factory: $PDFRouteExtension._fromState,
+RouteBase get $pdfXRoute => GoRouteData.$route(
+      path: '/pdf-x',
+      factory: $PdfXRouteExtension._fromState,
     );
 
-extension $PDFRouteExtension on PDFRoute {
-  static PDFRoute _fromState(GoRouterState state) => const PDFRoute();
+extension $PdfXRouteExtension on PdfXRoute {
+  static PdfXRoute _fromState(GoRouterState state) => const PdfXRoute();
 
   String get location => GoRouteData.$location(
-        '/pdf',
+        '/pdf-x',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $easyPDFRoute => GoRouteData.$route(
+      path: '/easy-pdf',
+      factory: $EasyPDFRouteExtension._fromState,
+    );
+
+extension $EasyPDFRouteExtension on EasyPDFRoute {
+  static EasyPDFRoute _fromState(GoRouterState state) => const EasyPDFRoute();
+
+  String get location => GoRouteData.$location(
+        '/easy-pdf',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $flutterPDFRoute => GoRouteData.$route(
+      path: '/flutter-pdf',
+      factory: $FlutterPDFRouteExtension._fromState,
+    );
+
+extension $FlutterPDFRouteExtension on FlutterPDFRoute {
+  static FlutterPDFRoute _fromState(GoRouterState state) =>
+      const FlutterPDFRoute();
+
+  String get location => GoRouteData.$location(
+        '/flutter-pdf',
       );
 
   void go(BuildContext context) => context.go(location);

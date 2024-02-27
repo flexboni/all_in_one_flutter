@@ -29,7 +29,15 @@ class _MainScreenState extends State<MainScreen> {
       ),
       ButtonModel(
         title: 'PDF',
-        onTap: () => const PDFRoute().push(context),
+        onTap: () => const PdfXRoute().push(context),
+      ),
+      ButtonModel(
+        title: 'Easy PDF',
+        onTap: () => const EasyPDFRoute().push(context),
+      ),
+      ButtonModel(
+        title: 'Flutter PDF',
+        onTap: () => const FlutterPDFRoute().push(context),
       ),
       ButtonModel(
         title: 'Pencil',

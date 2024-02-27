@@ -12,9 +12,20 @@ class FileUtils {
     return jsonDecode(file);
   }
 
-  static Future<String> createPath({String? endpoint}) async {
+  static Future<String> createDocumentPath({String? endpoint}) async {
     final Directory documentDir = await getApplicationDocumentsDirectory();
 
     return '${documentDir.path}/${endpoint ?? 'temp'}';
+  }
+
+  static Future<String?> createPath({String? endpoint}) async {
+    Directory? directory = Platform.isIOS
+        ? await getDownloadsDirectory()
+        : await getExternalStorageDirectory();
+    if (directory != null) {
+      return '${directory.path}/${endpoint ?? 'temp'}';
+    }
+
+    return null;
   }
 }
