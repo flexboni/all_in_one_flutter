@@ -5,8 +5,9 @@ import 'package:all_in_one_flutter/core/utils/utils.dart';
 import 'package:all_in_one_flutter/core/widgets/widgets.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:internet_file/internet_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf_merger/pdf_merger.dart';
 
@@ -78,36 +79,21 @@ class _EasyPDFScreenState extends State<EasyPDFScreen> {
 
       await tempDirectory.create();
 
-      final List<String> downloadedFilePaths = await Future.wait(
-        paths.map((e) async {
-          final int index = paths.indexWhere((element) => element == e);
-          await FlutterDownloader.enqueue(
-            url: e,
-            savedDir: tempDirectory.path,
-            fileName: '$index.pdf',
-          );
+      List<String> filePaths = [];
+      for (var i = 0; i < paths.length; i++) {
+        final Uint8List pdfData = await InternetFile.get(paths[i]);
+        final String path = '${tempDirectory.path}/$i.pdf';
+        File file = File(path);
+        await file.writeAsBytes(pdfData);
 
-          return '${tempDirectory.path}/$index.pdf';
-        }),
-      );
+        filePaths.add(path);
+      }
 
       final String mergeFilePath = '${tempDirectory.path}/merge_pdf.pdf';
       MergeMultiplePDFResponse response = await PdfMerger.mergeMultiplePDF(
-        paths: downloadedFilePaths,
+        paths: filePaths,
         outputDirPath: mergeFilePath,
       );
-
-      int size = File(mergeFilePath).lengthSync();
-      if (size < 900) {
-        logUtil.d('i am here : $size');
-        response = await PdfMerger.mergeMultiplePDF(
-          paths: downloadedFilePaths,
-          outputDirPath: mergeFilePath,
-        );
-      }
-      size = File(mergeFilePath).lengthSync();
-      logUtil.d(size);
-      logUtil.d(response.response);
 
       _document = await PDFDocument.fromAsset(response.response!);
       _controller = PageController(initialPage: currentIndex);
