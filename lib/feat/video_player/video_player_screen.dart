@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:all_in_one_flutter/feat/video_player/full_screen_video_widget.dart';
-import 'package:all_in_one_flutter/feat/video_player/normal_screen_video_widget.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/full_screen_video.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/normal_screen_video.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -83,7 +83,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return isFullScreen
-        ? FullScreenVideoWidget(
+        ? FullScreenVideo(
             controller: controller,
             onTapPrevious: () {
               debugPrint('onTapPrevious');
@@ -101,7 +101,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             seekTime: widget.seekTime,
             showController: showController,
           )
-        : NormalScreenVideoWidget(
+        : NormalScreenVideo(
             controller: controller,
             onTapPrevious: () {
               debugPrint('onTapPrevious');

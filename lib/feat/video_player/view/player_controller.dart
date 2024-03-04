@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 
-class PlayerControllers extends StatelessWidget {
-  const PlayerControllers({
+class PlayerController extends StatelessWidget {
+  const PlayerController({
     super.key,
     required this.controller,
     required this.onTapPrevious,

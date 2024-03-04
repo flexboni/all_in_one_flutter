@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class SeekToControlWidget extends StatelessWidget {
+class SeekToControl extends StatelessWidget {
   /// Double tap 으로 앞이나 뒤로 player 이동하는 widget
-  const SeekToControlWidget({
+  const SeekToControl({
     super.key,
     required this.controller,
     required this.onShowController,

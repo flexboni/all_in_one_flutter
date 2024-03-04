@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:all_in_one_flutter/feat/video_player/player_controllers.dart';
-import 'package:all_in_one_flutter/feat/video_player/player_slider.dart';
-import 'package:all_in_one_flutter/feat/video_player/seek_to_control_widget.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/player_controller.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/player_slider.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/seek_to_control.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/speed_change_button.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 
-class FullScreenVideoWidget extends StatefulWidget {
-  const FullScreenVideoWidget({
+class FullScreenVideo extends StatefulWidget {
+  const FullScreenVideo({
     super.key,
     required this.controller,
     required this.onTapFullScreen,
@@ -50,10 +50,10 @@ class FullScreenVideoWidget extends StatefulWidget {
   final Color thumbColor;
 
   @override
-  State<FullScreenVideoWidget> createState() => _FullScreenVideoWidgetState();
+  State<FullScreenVideo> createState() => _FullScreenVideoState();
 }
 
-class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
+class _FullScreenVideoState extends State<FullScreenVideo> {
   bool showRemainTime = false;
 
   Timer? controllerTimer;
@@ -116,7 +116,7 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
           child: Stack(
             children: [
               VideoPlayer(widget.controller),
-              SeekToControlWidget(
+              SeekToControl(
                 controller: widget.controller,
                 onShowController: widget.onShowController,
                 onTapFullScreen: widget.onTapFullScreen,
@@ -132,7 +132,7 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
                         height: double.maxFinite,
                         color: Colors.black.withOpacity(0.4),
                         alignment: Alignment.center,
-                        child: PlayerControllers(
+                        child: PlayerController(
                           controller: widget.controller,
                           onTapPrevious: widget.onTapPrevious,
                           onTapNext: widget.onTapNext,
@@ -140,7 +140,6 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
                         ),
                       ),
                     ),
-                    settingButton(),
                     Positioned(
                       bottom: 20,
                       child: SizedBox(
@@ -178,13 +177,21 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
                                 )
                               ],
                             ),
-                            IconButton(
-                              onPressed: widget.onTapFullScreen,
-                              icon: Icon(
-                                Icons.zoom_in_map_rounded,
-                                color: Colors.white,
-                                size: widget.smallIconSize,
-                              ),
+                            Row(
+                              children: [
+                                SpeedChangeButton(
+                                  controller: widget.controller,
+                                  onShowController: widget.onShowController,
+                                ),
+                                IconButton(
+                                  onPressed: widget.onTapFullScreen,
+                                  icon: Icon(
+                                    Icons.zoom_in_map_rounded,
+                                    color: Colors.white,
+                                    size: widget.smallIconSize,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -194,124 +201,6 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
                 ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget settingButton() {
-    const double borderRadius = 30.0;
-    const Color backgroundColor = Colors.black;
-    const EdgeInsets padding =
-        EdgeInsets.symmetric(horizontal: 20, vertical: 30);
-
-    Future<void> showSettingModal() async {
-      if (controllerTimer != null) {
-        controllerTimer!.cancel();
-      }
-
-      final bool? isDone = await showModalBottomSheet<bool?>(
-        context: context,
-        backgroundColor: backgroundColor,
-        builder: (_) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(borderRadius),
-            child: ListView(
-              padding: padding,
-              children: [
-                ListTile(
-                  onTap: () async {
-                    context.pop(false);
-
-                    final List<double> items = [
-                      0.25,
-                      0.5,
-                      0.75,
-                      1.0,
-                      1.25,
-                      1.5,
-                      1.75,
-                      2,
-                    ];
-
-                    await showModalBottomSheet(
-                      context: context,
-                      backgroundColor: backgroundColor,
-                      builder: (_) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(borderRadius),
-                          child: ListView.separated(
-                            padding: padding,
-                            itemCount: items.length,
-                            itemBuilder: (context, index) {
-                              final double item = items[index];
-                              final bool isSelected =
-                                  widget.controller.value.playbackSpeed == item;
-                              return ListTile(
-                                onTap: () {
-                                  widget.controller.setPlaybackSpeed(item);
-                                  context.pop();
-                                },
-                                selected: isSelected,
-                                selectedColor: Colors.red,
-                                title: Text(
-                                  item.toString(),
-                                  style: TextStyle(
-                                    color: widget.smallIconColor,
-                                    fontSize: widget.timeTextSize,
-                                  ),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (_, __) =>
-                                const SizedBox(height: 5),
-                          ),
-                        );
-                      },
-                    );
-
-                    widget.onShowController();
-                  },
-                  leading: Icon(
-                    Icons.speed,
-                    color: widget.smallIconColor,
-                    size: widget.smallIconSize,
-                  ),
-                  title: Text(
-                    '재생 속도',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: widget.timeTextSize,
-                    ),
-                  ),
-                  trailing: Text(
-                    widget.controller.value.playbackSpeed.toString(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: widget.timeTextSize,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-
-      if (isDone != false) {
-        widget.onShowController();
-      }
-    }
-
-    return Positioned(
-      top: 20,
-      right: 20,
-      child: IconButton(
-        onPressed: showSettingModal,
-        icon: Icon(
-          Icons.settings_rounded,
-          color: widget.smallIconColor,
-          size: widget.smallIconSize,
         ),
       ),
     );

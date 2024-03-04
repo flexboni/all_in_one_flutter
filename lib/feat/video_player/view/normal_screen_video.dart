@@ -1,11 +1,12 @@
 import 'package:all_in_one_flutter/core/widgets/widgets.dart';
-import 'package:all_in_one_flutter/feat/video_player/player_controllers.dart';
-import 'package:all_in_one_flutter/feat/video_player/seek_to_control_widget.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/player_controller.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/seek_to_control.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/speed_change_button.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class NormalScreenVideoWidget extends StatefulWidget {
-  const NormalScreenVideoWidget({
+class NormalScreenVideo extends StatefulWidget {
+  const NormalScreenVideo({
     super.key,
     required this.controller,
     required this.onTapPrevious,
@@ -33,11 +34,10 @@ class NormalScreenVideoWidget extends StatefulWidget {
   final double controllerIconSize;
 
   @override
-  State<NormalScreenVideoWidget> createState() =>
-      _NormalScreenVideoWidgetState();
+  State<NormalScreenVideo> createState() => _NormalScreenVideoState();
 }
 
-class _NormalScreenVideoWidgetState extends State<NormalScreenVideoWidget> {
+class _NormalScreenVideoState extends State<NormalScreenVideo> {
   @override
   Widget build(BuildContext context) {
     return Parents(
@@ -54,7 +54,7 @@ class _NormalScreenVideoWidgetState extends State<NormalScreenVideoWidget> {
                         aspectRatio: 16 / 9,
                         child: VideoPlayer(widget.controller),
                       ),
-                      SeekToControlWidget(
+                      SeekToControl(
                         controller: widget.controller,
                         onShowController: widget.onShowController,
                         onTapFullScreen: widget.onTapFullScreen,
@@ -72,16 +72,25 @@ class _NormalScreenVideoWidgetState extends State<NormalScreenVideoWidget> {
                                   Positioned(
                                     right: 10,
                                     bottom: 10,
-                                    child: IconButton(
-                                      onPressed: widget.onTapFullScreen,
-                                      icon: Icon(
-                                        Icons.fullscreen,
-                                        color: widget.buttonColor,
-                                        size: widget.fullScreenIconSize,
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        SpeedChangeButton(
+                                          controller: widget.controller,
+                                          onShowController:
+                                              widget.onShowController,
+                                        ),
+                                        IconButton(
+                                          onPressed: widget.onTapFullScreen,
+                                          icon: Icon(
+                                            Icons.fullscreen,
+                                            color: widget.buttonColor,
+                                            size: widget.fullScreenIconSize,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  PlayerControllers(
+                                  PlayerController(
                                     controller: widget.controller,
                                     onTapPrevious: widget.onTapPrevious,
                                     onTapNext: widget.onTapNext,
