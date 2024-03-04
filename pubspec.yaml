@@ -72,6 +72,7 @@ flutter:
     - assets/fonts/
     - assets/icons/drag_drop/
     - assets/icons/pencil/
+    - assets/icons/player/
     - assets/images/drag_drop/
     - assets/images/pencil/
     - assets/json/

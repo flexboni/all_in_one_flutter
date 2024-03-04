@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:all_in_one_flutter/feat/video_player/full_screen_video_widget.dart';
 import 'package:all_in_one_flutter/feat/video_player/normal_screen_video_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
-  const VideoPlayerScreen({super.key});
+  const VideoPlayerScreen({super.key, this.seekTime = 10000});
+
+  final int seekTime;
 
   @override
   State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
@@ -14,6 +18,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   late VideoPlayerController controller;
 
   bool isFullScreen = false;
+  bool showController = false;
+
+  Timer? controllerTimer;
 
   void listener() {
     setState(() {});
@@ -40,7 +47,37 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   void dispose() {
     controller.removeListener(listener);
     controller.dispose();
+
+    if (controllerTimer != null) {
+      controllerTimer!.cancel();
+    }
     super.dispose();
+  }
+
+  void _onShowController() {
+    showController = true;
+
+    if (controllerTimer != null) {
+      controllerTimer!.cancel();
+      controllerTimer = null;
+    }
+
+    controllerTimer = Timer(const Duration(seconds: 3), () {
+      setState(() {
+        showController = false;
+      });
+    });
+
+    setState(() {});
+  }
+
+  void _onHideController() {
+    setState(() {
+      showController = false;
+      if (controllerTimer != null) {
+        controllerTimer!.cancel();
+      }
+    });
   }
 
   @override
@@ -48,11 +85,22 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return isFullScreen
         ? FullScreenVideoWidget(
             controller: controller,
+            onTapPrevious: () {
+              debugPrint('onTapPrevious');
+            },
+            onTapNext: () {
+              debugPrint('onTapNext');
+            },
             onTapFullScreen: () {
               setState(() {
                 isFullScreen = false;
               });
-            })
+            },
+            onShowController: _onShowController,
+            onHideController: _onHideController,
+            seekTime: widget.seekTime,
+            showController: showController,
+          )
         : NormalScreenVideoWidget(
             controller: controller,
             onTapPrevious: () {
@@ -66,6 +114,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 isFullScreen = true;
               });
             },
+            onShowController: _onShowController,
+            onHideController: _onHideController,
+            seekTime: widget.seekTime,
+            showController: showController,
           );
   }
 }

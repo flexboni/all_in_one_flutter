@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:all_in_one_flutter/feat/video_player/player_controllers.dart';
+import 'package:all_in_one_flutter/feat/video_player/player_slider.dart';
+import 'package:all_in_one_flutter/feat/video_player/seek_to_control_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
@@ -9,7 +12,12 @@ class FullScreenVideoWidget extends StatefulWidget {
     super.key,
     required this.controller,
     required this.onTapFullScreen,
-    this.controllerHideTime = 3,
+    required this.onTapPrevious,
+    required this.onTapNext,
+    required this.onShowController,
+    required this.onHideController,
+    required this.seekTime,
+    required this.showController,
     this.trackHeight = 20.0,
     this.smallIconSize = 40.0,
     this.controllerIconSize = 100.0,
@@ -24,7 +32,12 @@ class FullScreenVideoWidget extends StatefulWidget {
 
   final VideoPlayerController controller;
   final void Function() onTapFullScreen;
-  final int controllerHideTime;
+  final void Function() onTapPrevious;
+  final void Function() onTapNext;
+  final void Function() onShowController;
+  final void Function() onHideController;
+  final int seekTime;
+  final bool showController;
   final double trackHeight;
   final double smallIconSize;
   final double controllerIconSize;
@@ -42,7 +55,6 @@ class FullScreenVideoWidget extends StatefulWidget {
 
 class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
   bool showRemainTime = false;
-  bool showController = false;
 
   Timer? controllerTimer;
 
@@ -92,27 +104,7 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
 
     return Material(
       child: GestureDetector(
-        onTap: () {
-          if (!showController) {
-            showController = true;
-
-            controllerTimer = Timer(
-              Duration(seconds: widget.controllerHideTime),
-              () {
-                setState(() {
-                  showController = false;
-                });
-              },
-            );
-          } else {
-            showController = false;
-            if (controllerTimer != null) {
-              controllerTimer!.cancel();
-            }
-          }
-
-          setState(() {});
-        },
+        onTap: widget.onShowController,
         onVerticalDragUpdate: (details) {
           if (details.delta.dy > 10.0) {
             widget.onTapFullScreen();
@@ -124,17 +116,31 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
           child: Stack(
             children: [
               VideoPlayer(widget.controller),
-              if (showController)
+              SeekToControlWidget(
+                controller: widget.controller,
+                onShowController: widget.onShowController,
+                onTapFullScreen: widget.onTapFullScreen,
+                seekTime: widget.seekTime,
+              ),
+              if (widget.showController)
                 Stack(
                   children: [
-                    settingButton(),
-                    Align(
-                      alignment: Alignment.center,
-                      child: playButton(
-                        color: widget.controllerIconColor,
-                        size: widget.controllerIconSize,
+                    InkWell(
+                      onTap: widget.onHideController,
+                      child: Container(
+                        width: double.maxFinite,
+                        height: double.maxFinite,
+                        color: Colors.black.withOpacity(0.4),
+                        alignment: Alignment.center,
+                        child: PlayerControllers(
+                          controller: widget.controller,
+                          onTapPrevious: widget.onTapPrevious,
+                          onTapNext: widget.onTapNext,
+                          onPress: widget.onShowController,
+                        ),
                       ),
                     ),
+                    settingButton(),
                     Positioned(
                       bottom: 20,
                       child: SizedBox(
@@ -142,32 +148,35 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            playButton(
-                              color: widget.smallIconColor,
-                              size: widget.smallIconSize,
-                            ),
-                            time(leftTime),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 10.0,
                                 ),
-                                child: slider(
-                                    endTime: endTime, playTime: playTime),
+                                child: PlayerSlider(
+                                  controller: widget.controller,
+                                  onChangEnd: widget.onShowController,
+                                  playTime: playTime,
+                                  endTime: endTime,
+                                  trackHeight: widget.trackHeight,
+                                  thumbRadius: widget.thumbRadius,
+                                  activeTrackColor: widget.activeTrackColor,
+                                  thumbColor: widget.thumbColor,
+                                ),
                               ),
                             ),
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  showRemainTime = !showRemainTime;
-                                });
-                              },
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                minimumSize: Size.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                              child: time(rightTime),
+                            Row(
+                              children: [
+                                Text(
+                                  // TODO
+                                  // playTime.,
+                                  '',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: widget.timeTextSize,
+                                  ),
+                                )
+                              ],
                             ),
                             IconButton(
                               onPressed: widget.onTapFullScreen,
@@ -261,14 +270,7 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
                       },
                     );
 
-                    controllerTimer = Timer(
-                      Duration(seconds: widget.controllerHideTime),
-                      () {
-                        setState(() {
-                          showController = false;
-                        });
-                      },
-                    );
+                    widget.onShowController();
                   },
                   leading: Icon(
                     Icons.speed,
@@ -297,14 +299,7 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
       );
 
       if (isDone != false) {
-        controllerTimer = Timer(
-          Duration(seconds: widget.controllerHideTime),
-          () {
-            setState(() {
-              showController = false;
-            });
-          },
-        );
+        widget.onShowController();
       }
     }
 
@@ -321,24 +316,6 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
       ),
     );
   }
-
-  IconButton playButton({required Color color, required double size}) =>
-      IconButton(
-        onPressed: () {
-          widget.controller.value.isPlaying
-              ? widget.controller.pause()
-              : widget.controller.play();
-
-          setState(() {});
-        },
-        icon: Icon(
-          widget.controller.value.isPlaying
-              ? Icons.pause
-              : Icons.play_arrow_rounded,
-          color: color,
-          size: size,
-        ),
-      );
 
   Widget time(String text) => Container(
         width: MediaQuery.of(context).size.width * 0.08,
@@ -394,14 +371,7 @@ class _FullScreenVideoWidgetState extends State<FullScreenVideoWidget> {
             widget.controller.play();
           }
 
-          controllerTimer = Timer(
-            Duration(seconds: widget.controllerHideTime),
-            () {
-              setState(() {
-                showController = false;
-              });
-            },
-          );
+          widget.onShowController();
         },
         activeColor: widget.activeTrackColor ?? Colors.grey[400],
         inactiveColor: widget.activeTrackColor ?? Colors.grey[700],

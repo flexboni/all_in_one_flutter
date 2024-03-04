@@ -88,6 +88,7 @@ class $AssetsIconsGen {
 
   $AssetsIconsDragDropGen get dragDrop => const $AssetsIconsDragDropGen();
   $AssetsIconsPencilGen get pencil => const $AssetsIconsPencilGen();
+  $AssetsIconsPlayerGen get player => const $AssetsIconsPlayerGen();
 }
 
 class $AssetsImagesGen {
@@ -149,6 +150,26 @@ class $AssetsIconsPencilGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [horizontalBar];
+}
+
+class $AssetsIconsPlayerGen {
+  const $AssetsIconsPlayerGen();
+
+  /// File path: assets/icons/player/next.svg
+  SvgGenImage get next => const SvgGenImage('assets/icons/player/next.svg');
+
+  /// File path: assets/icons/player/pause.svg
+  SvgGenImage get pause => const SvgGenImage('assets/icons/player/pause.svg');
+
+  /// File path: assets/icons/player/play.svg
+  SvgGenImage get play => const SvgGenImage('assets/icons/player/play.svg');
+
+  /// File path: assets/icons/player/previous.svg
+  SvgGenImage get previous =>
+      const SvgGenImage('assets/icons/player/previous.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [next, pause, play, previous];
 }
 
 class $AssetsImagesDragDropGen {
