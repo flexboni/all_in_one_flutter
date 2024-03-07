@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:all_in_one_flutter/feat/video_player/model/content.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/player_controller.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/player_slider.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/seek_to_control.dart';
@@ -11,6 +12,7 @@ class FullScreenVideo extends StatefulWidget {
   const FullScreenVideo({
     super.key,
     required this.controller,
+    required this.content,
     required this.onTapFullScreen,
     required this.onTapPrevious,
     required this.onTapNext,
@@ -20,7 +22,8 @@ class FullScreenVideo extends StatefulWidget {
     required this.showController,
     this.trackHeight = 20.0,
     this.smallIconSize = 40.0,
-    this.controllerIconSize = 100.0,
+    required this.controllerIconSize,
+    required this.fullScreenIconSize,
     this.thumbRadius = 15.0,
     this.timeTextSize = 30.0,
     this.smallIconColor = Colors.white,
@@ -28,9 +31,11 @@ class FullScreenVideo extends StatefulWidget {
     this.inactiveTrackColor,
     this.activeTrackColor,
     this.thumbColor = Colors.white,
+    required this.buttonColor,
   });
 
   final VideoPlayerController controller;
+  final Content content;
   final void Function() onTapFullScreen;
   final void Function() onTapPrevious;
   final void Function() onTapNext;
@@ -43,11 +48,13 @@ class FullScreenVideo extends StatefulWidget {
   final double controllerIconSize;
   final double thumbRadius;
   final double timeTextSize;
+  final double fullScreenIconSize;
   final Color smallIconColor;
   final Color controllerIconColor;
   final Color? inactiveTrackColor;
   final Color? activeTrackColor;
   final Color thumbColor;
+  final Color buttonColor;
 
   @override
   State<FullScreenVideo> createState() => _FullScreenVideoState();
@@ -134,9 +141,15 @@ class _FullScreenVideoState extends State<FullScreenVideo> {
                         alignment: Alignment.center,
                         child: PlayerController(
                           controller: widget.controller,
+                          content: widget.content,
                           onTapPrevious: widget.onTapPrevious,
                           onTapNext: widget.onTapNext,
-                          onPress: widget.onShowController,
+                          onShowController: widget.onShowController,
+                          onHideController: widget.onHideController,
+                          onTapFullScreen: widget.onTapFullScreen,
+                          buttonColor: widget.buttonColor,
+                          fullScreenIconSize: widget.fullScreenIconSize,
+                          controllerIconSize: widget.controllerIconSize,
                         ),
                       ),
                     ),

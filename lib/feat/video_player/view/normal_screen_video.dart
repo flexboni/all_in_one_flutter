@@ -1,14 +1,16 @@
 import 'package:all_in_one_flutter/core/widgets/widgets.dart';
+import 'package:all_in_one_flutter/feat/video_player/model/content.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/player_controller.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/seek_to_control.dart';
-import 'package:all_in_one_flutter/feat/video_player/view/speed_change_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 
 class NormalScreenVideo extends StatefulWidget {
   const NormalScreenVideo({
     super.key,
     required this.controller,
+    required this.content,
     required this.onTapPrevious,
     required this.onTapNext,
     required this.onTapFullScreen,
@@ -16,12 +18,13 @@ class NormalScreenVideo extends StatefulWidget {
     required this.onHideController,
     required this.seekTime,
     required this.showController,
-    this.buttonColor = Colors.white,
-    this.fullScreenIconSize = 40,
-    this.controllerIconSize = 100,
+    required this.buttonColor,
+    required this.fullScreenIconSize,
+    required this.controllerIconSize,
   });
 
   final VideoPlayerController controller;
+  final Content content;
   final void Function() onTapPrevious;
   final void Function() onTapNext;
   final void Function() onTapFullScreen;
@@ -45,63 +48,67 @@ class _NormalScreenVideoState extends State<NormalScreenVideo> {
       body: Align(
         alignment: Alignment.topCenter,
         child: widget.controller.value.isInitialized
-            ? Column(
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: VideoPlayer(widget.controller),
-                      ),
-                      SeekToControl(
-                        controller: widget.controller,
-                        onShowController: widget.onShowController,
-                        onTapFullScreen: widget.onTapFullScreen,
-                        seekTime: widget.seekTime,
-                      ),
-                      if (widget.showController)
-                        Positioned.fill(
-                          child: GestureDetector(
-                            onTap: widget.onHideController,
-                            child: Container(
-                              color: Colors.black.withOpacity(0.4),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Positioned(
-                                    right: 10,
-                                    bottom: 10,
-                                    child: Row(
-                                      children: [
-                                        SpeedChangeButton(
-                                          controller: widget.controller,
-                                          onShowController:
-                                              widget.onShowController,
-                                        ),
-                                        IconButton(
-                                          onPressed: widget.onTapFullScreen,
-                                          icon: Icon(
-                                            Icons.fullscreen,
-                                            color: widget.buttonColor,
-                                            size: widget.fullScreenIconSize,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  PlayerController(
+                  Container(
+                    width: 48.w,
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.white,
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Stack(
+                            children: [
+                              VideoPlayer(widget.controller),
+                              SeekToControl(
+                                controller: widget.controller,
+                                onShowController: widget.onShowController,
+                                onTapFullScreen: widget.onTapFullScreen,
+                                seekTime: widget.seekTime,
+                              ),
+                              if (widget.showController)
+                                Positioned.fill(
+                                  child: PlayerController(
                                     controller: widget.controller,
+                                    content: widget.content,
                                     onTapPrevious: widget.onTapPrevious,
                                     onTapNext: widget.onTapNext,
-                                    onPress: widget.onShowController,
+                                    onShowController: widget.onShowController,
+                                    onHideController: widget.onHideController,
+                                    onTapFullScreen: widget.onTapFullScreen,
+                                    buttonColor: widget.buttonColor,
+                                    fullScreenIconSize:
+                                        widget.fullScreenIconSize,
+                                    controllerIconSize:
+                                        widget.controllerIconSize,
                                   ),
-                                ],
-                              ),
-                            ),
+                                ),
+                            ],
                           ),
                         ),
-                    ],
+                        // TODO
+                        Container(
+                          height: 48.w,
+                          alignment: Alignment.centerRight,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text('이전'),
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text('다음'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )

@@ -110,8 +110,11 @@ class $AssetsJsonGen {
   /// File path: assets/json/today_learns.json
   String get todayLearns => 'assets/json/today_learns.json';
 
+  /// File path: assets/json/today_lecture.json
+  String get todayLecture => 'assets/json/today_lecture.json';
+
   /// List of all assets
-  List<String> get values => [problems, subjects, todayLearns];
+  List<String> get values => [problems, subjects, todayLearns, todayLecture];
 }
 
 class $AssetsPdfGen {

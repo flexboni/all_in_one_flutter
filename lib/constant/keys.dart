@@ -48,6 +48,9 @@ class Keys {
   static const String LECTURES_URL_VIDEO_1 = 'url_video1';
   static const String LECTURES_URL_VIDEO_2 = 'url_video2';
   static const String LECTURES_QUESTIONS_INFO = 'questions_info';
+  static const String LECTURE_TYPE = 'lecture_type';
+  static const String LECTURE_TYPE_CONCEPT = 'opt-lec-typ-the';
+  static const String LECTURE_TYPE_CATEGORY = 'opt-lec-typ-cat';
 
   // StepviewsModel
   static const String STEP_VIEW_UNION_RECOMMENDS = 'union_recommends';

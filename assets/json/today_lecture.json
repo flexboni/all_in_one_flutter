@@ -1,0 +1,39 @@
+{
+  "contents": [
+    {
+      "title": "최대공약수의 정의",
+      "structure": "소인수분해 > 최대공약수와 최소공배수 > 공약수와 최대공약수",
+      "type": "lecture",
+      "lecture_type": "opt-lec-typ-the",
+      "url_video": "https://d3c4mbu4lgmuea.cloudfront.net/lecture/video/1706078097437_0szotblpt.mp4"
+    },
+    {
+      "title": "최대공약수 구하는 방법",
+      "structure": "소인수분해 > 최대공약수와 최소공배수 > 소인수분해를 이용하여 최대공약수 구하기",
+      "type": "lecture",
+      "lecture_type": "opt-lec-typ-cat",
+      "url_video": "https://d3c4mbu4lgmuea.cloudfront.net/lecture/video/1706065378139_0iux2lnyl.mp4"
+    },
+    {
+      "title": "문제풀이 - 최대공약수의 정의",
+      "structure": "소인수분해 > 최대공약수와 최소공배수 > 공약수와 최대공약수",
+      "type": "explanation",
+      "lecture_type": "opt-lec-typ-cat",
+      "url_video": "https://d3c4mbu4lgmuea.cloudfront.net/lecture/video/1706098139282_l3u17uciu.mp4"
+    },
+    {
+      "title": "문제풀이 - 최대공약수 구하는 방법(1)",
+      "structure": "소인수분해 > 최대공약수와 최소공배수 > 소인수분해를 이용하여 최대공약수 구하기",
+      "type": "explanation",
+      "lecture_type": "opt-lec-typ-the",
+      "url_video": "https://d3c4mbu4lgmuea.cloudfront.net/lecture/video/1706098166350_jdxv48by1.mp4"
+    },
+    {
+      "title": "문제풀이 - 최대공약수 구하는 방법(2)",
+      "structure": "소인수분해 > 최대공약수와 최소공배수 > 소인수분해를 이용하여 최대공약수 구하기",
+      "type": "explanation",
+      "lecture_type": "opt-lec-typ-the",
+      "url_video": "https://d3c4mbu4lgmuea.cloudfront.net/lecture/video/1706098190359_bikss6jih.mp4"
+    }
+  ]
+}

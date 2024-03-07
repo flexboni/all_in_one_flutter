@@ -30,12 +30,11 @@ class _FlickVideoPlayerScreenState extends State<FlickVideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flick video player'),
       ),
-      body: Align(
+      body: const Align(
         alignment: Alignment.topCenter,
         child: Column(
           children: [
