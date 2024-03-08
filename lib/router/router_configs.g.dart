@@ -9,9 +9,11 @@ part of 'router_configs.dart';
 List<RouteBase> get $appRoutes => [
       $mainRoute,
       $dragDropRoute,
+      $basicPDFRoute,
       $pdfXRoute,
       $easyPDFRoute,
       $flutterPDFRoute,
+      $multiPDFRoute,
       $pencilRoute,
       $videoPlayerRoute,
       $flickVideoPlayerRoute,
@@ -49,6 +51,28 @@ extension $DragDropRouteExtension on DragDropRoute {
 
   String get location => GoRouteData.$location(
         '/drag-drop',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $basicPDFRoute => GoRouteData.$route(
+      path: '/basic-pdf',
+      factory: $BasicPDFRouteExtension._fromState,
+    );
+
+extension $BasicPDFRouteExtension on BasicPDFRoute {
+  static BasicPDFRoute _fromState(GoRouterState state) => const BasicPDFRoute();
+
+  String get location => GoRouteData.$location(
+        '/basic-pdf',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -116,6 +140,28 @@ extension $FlutterPDFRouteExtension on FlutterPDFRoute {
 
   String get location => GoRouteData.$location(
         '/flutter-pdf',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $multiPDFRoute => GoRouteData.$route(
+      path: '/multi-pdf',
+      factory: $MultiPDFRouteExtension._fromState,
+    );
+
+extension $MultiPDFRouteExtension on MultiPDFRoute {
+  static MultiPDFRoute _fromState(GoRouterState state) => const MultiPDFRoute();
+
+  String get location => GoRouteData.$location(
+        '/multi-pdf',
       );
 
   void go(BuildContext context) => context.go(location);

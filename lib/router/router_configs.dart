@@ -1,8 +1,10 @@
 import 'package:all_in_one_flutter/feat/drag_drop/screen/drag_drap_screen.dart';
 import 'package:all_in_one_flutter/feat/flick_video_player_screen.dart';
 import 'package:all_in_one_flutter/feat/main_screen.dart';
+import 'package:all_in_one_flutter/feat/pdf/screen/basic_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/easy_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/flutter_pdf_screen.dart';
+import 'package:all_in_one_flutter/feat/pdf/screen/multi_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/pdfx_screen.dart';
 import 'package:all_in_one_flutter/feat/pencil/screen/pencil_screen.dart';
 import 'package:all_in_one_flutter/feat/video_player/video_player_screen.dart';
@@ -54,6 +56,18 @@ class DragDropRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<BasicPDFRoute>(path: BasicPDFRoute.path)
+class BasicPDFRoute extends GoRouteData {
+  const BasicPDFRoute();
+
+  static const path = '/basic-pdf';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const BasicPDFScreen();
+  }
+}
+
 @TypedGoRoute<PdfXRoute>(path: PdfXRoute.path)
 class PdfXRoute extends GoRouteData {
   const PdfXRoute();
@@ -87,6 +101,18 @@ class FlutterPDFRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const FlutterPDFScreen();
+  }
+}
+
+@TypedGoRoute<MultiPDFRoute>(path: MultiPDFRoute.path)
+class MultiPDFRoute extends GoRouteData {
+  const MultiPDFRoute();
+
+  static const path = '/multi-pdf';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const MultiPDFScreen();
   }
 }
 

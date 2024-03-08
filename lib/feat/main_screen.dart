@@ -1,11 +1,12 @@
 import 'package:all_in_one_flutter/router/router_configs.dart';
 import 'package:flutter/material.dart';
 
-class ButtonModel {
-  const ButtonModel({required this.title, required this.onTap});
+class Menu {
+  const Menu({required this.name, this.onTap, this.subMenus});
 
-  final String title;
-  final void Function() onTap;
+  final String name;
+  final void Function()? onTap;
+  final List<Menu>? subMenus;
 }
 
 class MainScreen extends StatefulWidget {
@@ -16,39 +17,43 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late List<ButtonModel> items;
+  late List<Menu> items;
 
   @override
   void initState() {
     super.initState();
 
     items = [
-      ButtonModel(
-        title: 'Drag drop',
-        onTap: () => const DragDropRoute().push(context),
+      Menu(name: 'Drag drop', onTap: () => const DragDropRoute().push(context)),
+      Menu(
+        name: 'PDF',
+        subMenus: [
+          Menu(
+            name: 'Basic PDF',
+            onTap: () => const BasicPDFRoute().push(context),
+          ),
+          Menu(name: 'PDFX', onTap: () => const PdfXRoute().push(context)),
+          Menu(
+            name: 'Easy PDF',
+            onTap: () => const EasyPDFRoute().push(context),
+          ),
+          Menu(
+            name: 'Flutter PDF',
+            onTap: () => const FlutterPDFRoute().push(context),
+          ),
+          Menu(
+            name: 'Multi PDF',
+            onTap: () => const MultiPDFRoute().push(context),
+          ),
+        ],
       ),
-      ButtonModel(
-        title: 'PDF',
-        onTap: () => const PdfXRoute().push(context),
-      ),
-      ButtonModel(
-        title: 'Easy PDF',
-        onTap: () => const EasyPDFRoute().push(context),
-      ),
-      ButtonModel(
-        title: 'Flutter PDF',
-        onTap: () => const FlutterPDFRoute().push(context),
-      ),
-      ButtonModel(
-        title: 'Pencil',
-        onTap: () => const PencilRoute().push(context),
-      ),
-      ButtonModel(
-        title: 'Video player',
+      Menu(name: 'Pencil', onTap: () => const PencilRoute().push(context)),
+      Menu(
+        name: 'Video player',
         onTap: () => const VideoPlayerRoute().push(context),
       ),
-      ButtonModel(
-        title: 'Flicker video player',
+      Menu(
+        name: 'Flicker video player',
         onTap: () => const FlickVideoPlayerRoute().push(context),
       ),
     ];
@@ -57,15 +62,27 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 60),
+      body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (_, int index) {
-          final ButtonModel item = items[index];
-          return ElevatedButton(onPressed: item.onTap, child: Text(item.title));
+          return _buildList(items[index]);
         },
-        separatorBuilder: (_, __) => const SizedBox(height: 15),
       ),
+    );
+  }
+
+  Widget _buildList(Menu menu) {
+    if (menu.subMenus == null) {
+      return Builder(
+        builder: (_) {
+          return ListTile(onTap: menu.onTap, title: Text(menu.name));
+        },
+      );
+    }
+
+    return ExpansionTile(
+      title: Text(menu.name),
+      children: menu.subMenus!.map(_buildList).toList(),
     );
   }
 }
