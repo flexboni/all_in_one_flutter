@@ -34,6 +34,8 @@ class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
 
   bool isFullScreen = false;
   bool showController = false;
+  bool isBookmarked = false;
+  bool showCheckPoint = false;
 
   Timer? controllerTimer;
 
@@ -146,6 +148,24 @@ class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
       ..play();
   }
 
+  void _onTapBookmark() {
+    setState(() {
+      isBookmarked = !isBookmarked;
+    });
+  }
+
+  void _onTapCheckPoint() {
+    setState(() {
+      showCheckPoint = !showCheckPoint;
+    });
+  }
+
+  void _onCloseCheckPoint() {
+    setState(() {
+      showCheckPoint = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final AsyncValue<VideoPlayerState> state =
@@ -173,8 +193,13 @@ class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
                 },
                 onShowController: onShowController,
                 onHideController: onHideController,
+                onTapBookmark: _onTapBookmark,
+                onTapCheckPoint: _onTapCheckPoint,
+                onCloseCheckPoint: _onCloseCheckPoint,
                 seekTime: widget.seekTime,
                 showController: showController,
+                isBookmarked: isBookmarked,
+                showCheckPoint: showCheckPoint,
                 controllerIconSize: widget.controllerIconSize,
                 fullScreenIconSize: widget.fullScreenIconSize,
                 buttonColor: widget.buttonColor,
@@ -191,8 +216,13 @@ class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
                 },
                 onShowController: onShowController,
                 onHideController: onHideController,
+                onTapBookmark: _onTapBookmark,
+                onTapCheckPoint: _onTapCheckPoint,
+                onCloseCheckPoint: _onCloseCheckPoint,
                 seekTime: widget.seekTime,
                 showController: showController,
+                isBookmarked: isBookmarked,
+                showCheckPoint: showCheckPoint,
                 controllerIconSize: widget.controllerIconSize,
                 fullScreenIconSize: widget.fullScreenIconSize,
                 buttonColor: widget.buttonColor,

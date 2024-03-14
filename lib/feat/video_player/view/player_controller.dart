@@ -19,9 +19,12 @@ class PlayerController extends ConsumerWidget {
     required this.onShowController,
     required this.onHideController,
     required this.onTapFullScreen,
+    required this.onTapBookmark,
+    required this.onTapCheckPoint,
     required this.buttonColor,
     required this.fullScreenIconSize,
     required this.controllerIconSize,
+    required this.isBookmarked,
   });
 
   final VideoPlayerController controller;
@@ -31,9 +34,12 @@ class PlayerController extends ConsumerWidget {
   final void Function() onShowController;
   final void Function() onHideController;
   final void Function() onTapFullScreen;
+  final void Function() onTapBookmark;
+  final void Function() onTapCheckPoint;
   final Color buttonColor;
   final double fullScreenIconSize;
   final double controllerIconSize;
+  final bool isBookmarked;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -179,16 +185,24 @@ class PlayerController extends ConsumerWidget {
       children: [
         Row(
           children: [
-            SpeedChangeButton(
-              controller: controller,
-              onShowController: onShowController,
+            TextButton.icon(
+              onPressed: onTapBookmark,
+              icon: isBookmarked
+                  ? const Icon(Icons.bookmark)
+                  : const Icon(Icons.bookmark_border_outlined),
+              label: const Text(Strings.BOOKMARK),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                textStyle: TextStyle(fontSize: 20.sp),
+              ),
             ),
-            IconButton(
-              onPressed: onTapFullScreen,
-              icon: Icon(
-                Icons.fullscreen,
-                color: buttonColor,
-                size: fullScreenIconSize,
+            TextButton.icon(
+              onPressed: onTapCheckPoint,
+              icon: const Icon(Icons.checklist_rounded),
+              label: const Text(Strings.CHECK_POINT),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                textStyle: TextStyle(fontSize: 20.sp),
               ),
             ),
           ],

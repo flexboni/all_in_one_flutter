@@ -27,11 +27,11 @@ class _PencilScreenState extends ConsumerState<PencilScreen>
     with TickerProviderStateMixin {
   PencilKitController? _controller;
 
-  double _previousScale = 1.0;
-  double _scale = 1.0;
+  final double _previousScale = 1.0;
+  final double _scale = 1.0;
 
-  Offset _prevPosition = Offset.zero;
-  Offset _position = Offset.zero;
+  final Offset _prevPosition = Offset.zero;
+  final Offset _position = Offset.zero;
 
   void init() async {
     ref.listenManual(
@@ -110,19 +110,17 @@ class _PencilScreenState extends ConsumerState<PencilScreen>
 
           return Stack(
             children: [
-              InteractiveViewer(
-                child: Stack(
-                  children: [
-                    const ProblemView(),
-                    AppPencilKit(
-                      onPencilKitViewCreated: (controller) {
-                        setState(() {
-                          _controller = controller;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+              Stack(
+                children: [
+                  const ProblemView(),
+                  AppPencilKit(
+                    onPencilKitViewCreated: (controller) {
+                      setState(() {
+                        _controller = controller;
+                      });
+                    },
+                  ),
+                ],
               ),
               Positioned(
                 top: 30,

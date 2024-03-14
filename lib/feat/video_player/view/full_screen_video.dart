@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:all_in_one_flutter/feat/video_player/model/content.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/check_point.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/player_controller.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/player_slider.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/seek_to_control.dart';
@@ -18,8 +19,13 @@ class FullScreenVideo extends StatefulWidget {
     required this.onTapNext,
     required this.onShowController,
     required this.onHideController,
+    required this.onTapBookmark,
+    required this.onTapCheckPoint,
+    required this.onCloseCheckPoint,
     required this.seekTime,
     required this.showController,
+    required this.isBookmarked,
+    required this.showCheckPoint,
     this.trackHeight = 20.0,
     this.smallIconSize = 40.0,
     required this.controllerIconSize,
@@ -41,8 +47,13 @@ class FullScreenVideo extends StatefulWidget {
   final void Function() onTapNext;
   final void Function() onShowController;
   final void Function() onHideController;
+  final void Function() onTapBookmark;
+  final void Function() onTapCheckPoint;
+  final void Function() onCloseCheckPoint;
   final int seekTime;
   final bool showController;
+  final bool isBookmarked;
+  final bool showCheckPoint;
   final double trackHeight;
   final double smallIconSize;
   final double controllerIconSize;
@@ -147,9 +158,12 @@ class _FullScreenVideoState extends State<FullScreenVideo> {
                           onShowController: widget.onShowController,
                           onHideController: widget.onHideController,
                           onTapFullScreen: widget.onTapFullScreen,
+                          onTapBookmark: widget.onTapBookmark,
+                          onTapCheckPoint: widget.onTapCheckPoint,
                           buttonColor: widget.buttonColor,
                           fullScreenIconSize: widget.fullScreenIconSize,
                           controllerIconSize: widget.controllerIconSize,
+                          isBookmarked: widget.isBookmarked,
                         ),
                       ),
                     ),
@@ -212,6 +226,8 @@ class _FullScreenVideoState extends State<FullScreenVideo> {
                     ),
                   ],
                 ),
+              if (widget.showCheckPoint)
+                CheckPoint(onCloseCheckPoint: widget.onCloseCheckPoint),
             ],
           ),
         ),

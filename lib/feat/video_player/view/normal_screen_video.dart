@@ -1,5 +1,6 @@
 import 'package:all_in_one_flutter/core/widgets/widgets.dart';
 import 'package:all_in_one_flutter/feat/video_player/model/content.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/check_point.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/player_controller.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/seek_to_control.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,13 @@ class NormalScreenVideo extends StatefulWidget {
     required this.onTapFullScreen,
     required this.onShowController,
     required this.onHideController,
+    required this.onTapBookmark,
+    required this.onTapCheckPoint,
+    required this.onCloseCheckPoint,
     required this.seekTime,
     required this.showController,
+    required this.isBookmarked,
+    required this.showCheckPoint,
     required this.buttonColor,
     required this.fullScreenIconSize,
     required this.controllerIconSize,
@@ -30,8 +36,13 @@ class NormalScreenVideo extends StatefulWidget {
   final void Function() onTapFullScreen;
   final void Function() onShowController;
   final void Function() onHideController;
+  final void Function() onTapBookmark;
+  final void Function() onTapCheckPoint;
+  final void Function() onCloseCheckPoint;
   final int seekTime;
   final bool showController;
+  final bool isBookmarked;
+  final bool showCheckPoint;
   final Color buttonColor;
   final double fullScreenIconSize;
   final double controllerIconSize;
@@ -79,12 +90,19 @@ class _NormalScreenVideoState extends State<NormalScreenVideo> {
                                     onShowController: widget.onShowController,
                                     onHideController: widget.onHideController,
                                     onTapFullScreen: widget.onTapFullScreen,
+                                    onTapBookmark: widget.onTapBookmark,
+                                    onTapCheckPoint: widget.onTapCheckPoint,
                                     buttonColor: widget.buttonColor,
                                     fullScreenIconSize:
                                         widget.fullScreenIconSize,
                                     controllerIconSize:
                                         widget.controllerIconSize,
+                                    isBookmarked: widget.isBookmarked,
                                   ),
+                                ),
+                              if (widget.showCheckPoint)
+                                CheckPoint(
+                                  onCloseCheckPoint: widget.onCloseCheckPoint,
                                 ),
                             ],
                           ),

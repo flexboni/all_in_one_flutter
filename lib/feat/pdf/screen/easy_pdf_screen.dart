@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_file/internet_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf_merger/pdf_merger.dart';
 
 class EasyPDFScreen extends StatefulWidget {
   const EasyPDFScreen({super.key});
@@ -194,12 +193,12 @@ class _FirstScreenState extends State<FirstScreen> {
       }
 
       final String mergeFilePath = '${tempDirectory.path}/merge_pdf.pdf';
-      MergeMultiplePDFResponse response = await PdfMerger.mergeMultiplePDF(
-        paths: filePaths,
-        outputDirPath: mergeFilePath,
-      );
+      // MergeMultiplePDFResponse response = await PdfMerger.mergeMultiplePDF(
+      //   paths: filePaths,
+      //   outputDirPath: mergeFilePath,
+      // );
 
-      _document = await PDFDocument.fromAsset(response.response!);
+      // _document = await PDFDocument.fromAsset(response.response!);
       _controller = PageController(initialPage: currentIndex);
 
       setState(() {
@@ -338,12 +337,12 @@ class _SecondScreenState extends State<SecondScreen> {
       }
 
       final String mergeFilePath = '${tempDirectory.path}/merge_pdf.pdf';
-      MergeMultiplePDFResponse response = await PdfMerger.mergeMultiplePDF(
-        paths: filePaths,
-        outputDirPath: mergeFilePath,
-      );
+      // MergeMultiplePDFResponse response = await PdfMerger.mergeMultiplePDF(
+      //   paths: filePaths,
+      //   outputDirPath: mergeFilePath,
+      // );
 
-      _document = await PDFDocument.fromAsset(response.response!);
+      // _document = await PDFDocument.fromAsset(response.response!);
       _controller = PageController(initialPage: currentIndex);
 
       setState(() {
