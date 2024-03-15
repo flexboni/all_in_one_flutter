@@ -1,4 +1,5 @@
 import 'package:all_in_one_flutter/feat/drag_drop/screen/drag_drap_screen.dart';
+import 'package:all_in_one_flutter/feat/event/screen/absorb_pointer_screen.dart';
 import 'package:all_in_one_flutter/feat/flick_video_player_screen.dart';
 import 'package:all_in_one_flutter/feat/main_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/basic_pdf_screen.dart';
@@ -53,6 +54,18 @@ class DragDropRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const DragDropScreen();
+  }
+}
+
+@TypedGoRoute<AbsorbPointerRoute>(path: AbsorbPointerRoute.path)
+class AbsorbPointerRoute extends GoRouteData {
+  const AbsorbPointerRoute();
+
+  static const path = '/absorb-pointer';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AbsorbPointerScreen();
   }
 }
 

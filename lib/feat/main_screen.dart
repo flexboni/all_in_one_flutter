@@ -1,3 +1,4 @@
+import 'package:all_in_one_flutter/feat/event/screen/absorb_pointer_screen.dart';
 import 'package:all_in_one_flutter/router/router_configs.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,14 @@ class _MainScreenState extends State<MainScreen> {
 
     items = [
       Menu(name: 'Drag drop', onTap: () => const DragDropRoute().push(context)),
+      Menu(
+        name: 'Event',
+        subMenus: [
+          Menu(
+              name: 'Absorb pointer',
+              onTap: () => const AbsorbPointerRoute().push(context))
+        ],
+      ),
       Menu(
         name: 'PDF',
         subMenus: [

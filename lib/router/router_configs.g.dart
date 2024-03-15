@@ -9,6 +9,7 @@ part of 'router_configs.dart';
 List<RouteBase> get $appRoutes => [
       $mainRoute,
       $dragDropRoute,
+      $absorbPointerRoute,
       $basicPDFRoute,
       $pdfXRoute,
       $easyPDFRoute,
@@ -51,6 +52,29 @@ extension $DragDropRouteExtension on DragDropRoute {
 
   String get location => GoRouteData.$location(
         '/drag-drop',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $absorbPointerRoute => GoRouteData.$route(
+      path: '/absorb-pointer',
+      factory: $AbsorbPointerRouteExtension._fromState,
+    );
+
+extension $AbsorbPointerRouteExtension on AbsorbPointerRoute {
+  static AbsorbPointerRoute _fromState(GoRouterState state) =>
+      const AbsorbPointerRoute();
+
+  String get location => GoRouteData.$location(
+        '/absorb-pointer',
       );
 
   void go(BuildContext context) => context.go(location);
