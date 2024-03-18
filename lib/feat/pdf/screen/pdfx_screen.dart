@@ -2,7 +2,6 @@ import 'package:all_in_one_flutter/constant/constants.dart';
 import 'package:all_in_one_flutter/core/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:internet_file/internet_file.dart';
 import 'package:pdfx/pdfx.dart';
 
 class PdfXScreen extends StatefulWidget {
@@ -30,12 +29,12 @@ class _PdfXScreenState extends State<PdfXScreen> {
   void initState() {
     super.initState();
 
-    _pdfController = PdfControllerPinch(
-      document: PdfDocument.openData(
-        InternetFile.get(
-            'https://media.seomjae.co.kr/question/content/pdf/1708662650481_t5uudltw8.pdf'),
-      ),
-    );
+    // _pdfController = PdfControllerPinch(
+    //   document: PdfDocument.openData(
+    //     InternetFile.get(
+    //         'https://media.seomjae.co.kr/question/content/pdf/1708662650481_t5uudltw8.pdf'),
+    //   ),
+    // );
   }
 
   void _initScale() {

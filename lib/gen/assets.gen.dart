@@ -95,6 +95,7 @@ class $AssetsImagesGen {
   const $AssetsImagesGen();
 
   $AssetsImagesDragDropGen get dragDrop => const $AssetsImagesDragDropGen();
+  $AssetsImagesGifGen get gif => const $AssetsImagesGifGen();
   $AssetsImagesPencilGen get pencil => const $AssetsImagesPencilGen();
 }
 
@@ -184,6 +185,21 @@ class $AssetsImagesDragDropGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [icBadge];
+}
+
+class $AssetsImagesGifGen {
+  const $AssetsImagesGifGen();
+
+  /// File path: assets/images/gif/forward_10_sec.gif
+  AssetGenImage get forward10Sec =>
+      const AssetGenImage('assets/images/gif/forward_10_sec.gif');
+
+  /// File path: assets/images/gif/previous_10_sec.gif
+  AssetGenImage get previous10Sec =>
+      const AssetGenImage('assets/images/gif/previous_10_sec.gif');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [forward10Sec, previous10Sec];
 }
 
 class $AssetsImagesPencilGen {

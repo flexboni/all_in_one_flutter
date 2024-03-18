@@ -1,6 +1,5 @@
 import 'package:all_in_one_flutter/core/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_file/internet_file.dart';
 import 'package:pdfx/pdfx.dart';
 
 class MultiPDFScreen extends StatefulWidget {
@@ -80,9 +79,9 @@ class _AppPDFViewState extends State<AppPDFView> {
   void initState() {
     super.initState();
 
-    _pdfController = PdfControllerPinch(
-      document: PdfDocument.openData(InternetFile.get(widget.url)),
-    );
+    // _pdfController = PdfControllerPinch(
+    // document: PdfDocument.openData(InternetFile.get(widget.url)),
+    // );
   }
 
   @override

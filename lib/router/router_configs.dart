@@ -1,6 +1,7 @@
 import 'package:all_in_one_flutter/feat/drag_drop/screen/drag_drap_screen.dart';
 import 'package:all_in_one_flutter/feat/event/screen/absorb_pointer_screen.dart';
 import 'package:all_in_one_flutter/feat/flick_video_player_screen.dart';
+import 'package:all_in_one_flutter/feat/image/screen/gif_screen.dart';
 import 'package:all_in_one_flutter/feat/main_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/basic_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/easy_pdf_screen.dart';
@@ -66,6 +67,18 @@ class AbsorbPointerRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const AbsorbPointerScreen();
+  }
+}
+
+@TypedGoRoute<GifRoute>(path: GifRoute.path)
+class GifRoute extends GoRouteData {
+  const GifRoute();
+
+  static const path = '/gif';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const GifScreen();
   }
 }
 

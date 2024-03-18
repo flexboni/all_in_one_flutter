@@ -10,6 +10,7 @@ List<RouteBase> get $appRoutes => [
       $mainRoute,
       $dragDropRoute,
       $absorbPointerRoute,
+      $gifRoute,
       $basicPDFRoute,
       $pdfXRoute,
       $easyPDFRoute,
@@ -75,6 +76,28 @@ extension $AbsorbPointerRouteExtension on AbsorbPointerRoute {
 
   String get location => GoRouteData.$location(
         '/absorb-pointer',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $gifRoute => GoRouteData.$route(
+      path: '/gif',
+      factory: $GifRouteExtension._fromState,
+    );
+
+extension $GifRouteExtension on GifRoute {
+  static GifRoute _fromState(GoRouterState state) => const GifRoute();
+
+  String get location => GoRouteData.$location(
+        '/gif',
       );
 
   void go(BuildContext context) => context.go(location);

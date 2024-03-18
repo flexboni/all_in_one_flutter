@@ -125,18 +125,29 @@ class _PencilScreenState extends ConsumerState<PencilScreen>
               Positioned(
                 top: 30,
                 right: 30,
-                child: question.answers.length == 5
-                    ? MultipleAnswerInput(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        question: question,
-                        onResult: (String? value) =>
-                            onResult(question: question, value: value),
-                      )
-                    : SubjectiveAnswerInput(
-                        question: question,
-                        onResult: (String? value) =>
-                            onResult(question: question, value: value),
+                child: Stack(
+                  children: [
+                    AbsorbPointer(
+                      child: Container(
+                        width: 200,
+                        height: 100,
+                        color: Colors.yellow,
                       ),
+                    ),
+                    question.answers.length == 5
+                        ? MultipleAnswerInput(
+                            width: MediaQuery.of(context).size.width * 0.2,
+                            question: question,
+                            onResult: (String? value) =>
+                                onResult(question: question, value: value),
+                          )
+                        : SubjectiveAnswerInput(
+                            question: question,
+                            onResult: (String? value) =>
+                                onResult(question: question, value: value),
+                          ),
+                  ],
+                ),
               ),
               slider(exam: data.exam, currentIndex: data.currentIndex),
             ],

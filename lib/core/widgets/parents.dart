@@ -6,12 +6,14 @@ class Parents extends StatelessWidget {
     this.appBar,
     this.title,
     this.body,
+    this.backgroundColor,
     this.floatingActionButton,
   }) : assert(appBar != null || title != null, 'Must pass AppBar or title');
 
   final AppBar? appBar;
   final String? title;
   final Widget? body;
+  final Color? backgroundColor;
   final Widget? floatingActionButton;
 
   @override
@@ -19,6 +21,7 @@ class Parents extends StatelessWidget {
     return Scaffold(
       appBar: appBar ?? AppBar(title: Text(title!)),
       body: body,
+      backgroundColor: backgroundColor,
       floatingActionButton: floatingActionButton,
     );
   }

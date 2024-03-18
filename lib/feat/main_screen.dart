@@ -35,6 +35,12 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       Menu(
+        name: 'Image',
+        subMenus: [
+          Menu(name: 'Gif', onTap: () => const GifRoute().push(context))
+        ],
+      ),
+      Menu(
         name: 'PDF',
         subMenus: [
           Menu(
