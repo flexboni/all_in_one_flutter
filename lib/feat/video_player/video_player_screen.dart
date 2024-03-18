@@ -5,7 +5,6 @@ import 'package:all_in_one_flutter/core/utils/toast_utils.dart';
 import 'package:all_in_one_flutter/feat/video_player/controller/app_video_player_controller.dart';
 import 'package:all_in_one_flutter/feat/video_player/controller/video_player_state.dart';
 import 'package:all_in_one_flutter/feat/video_player/model/content.dart';
-import 'package:all_in_one_flutter/feat/video_player/view/full_screen_video.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/normal_screen_video.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,7 +31,6 @@ class VideoPlayerScreen extends ConsumerStatefulWidget {
 class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
   VideoPlayerController? controller;
 
-  bool isFullScreen = false;
   bool showController = false;
   bool isBookmarked = false;
   bool showCheckPoint = false;
@@ -166,6 +164,12 @@ class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
     });
   }
 
+  void _onTapRepeat() {
+    setState(() {
+      // isFullScreen = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final AsyncValue<VideoPlayerState> state =
@@ -180,53 +184,25 @@ class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
         final List<Content> contents = state.contents;
         final int currentIndex = state.currentIndex;
 
-        return isFullScreen
-            ? FullScreenVideo(
-                controller: controller!,
-                content: contents[currentIndex],
-                onTapPrevious: onTapPrevious,
-                onTapNext: onTapNext,
-                onTapFullScreen: () {
-                  setState(() {
-                    isFullScreen = false;
-                  });
-                },
-                onShowController: onShowController,
-                onHideController: onHideController,
-                onTapBookmark: _onTapBookmark,
-                onTapCheckPoint: _onTapCheckPoint,
-                onCloseCheckPoint: _onCloseCheckPoint,
-                seekTime: widget.seekTime,
-                showController: showController,
-                isBookmarked: isBookmarked,
-                showCheckPoint: showCheckPoint,
-                controllerIconSize: widget.controllerIconSize,
-                fullScreenIconSize: widget.fullScreenIconSize,
-                buttonColor: widget.buttonColor,
-              )
-            : NormalScreenVideo(
-                controller: controller!,
-                content: contents[currentIndex],
-                onTapPrevious: onTapPrevious,
-                onTapNext: onTapNext,
-                onTapFullScreen: () {
-                  setState(() {
-                    isFullScreen = true;
-                  });
-                },
-                onShowController: onShowController,
-                onHideController: onHideController,
-                onTapBookmark: _onTapBookmark,
-                onTapCheckPoint: _onTapCheckPoint,
-                onCloseCheckPoint: _onCloseCheckPoint,
-                seekTime: widget.seekTime,
-                showController: showController,
-                isBookmarked: isBookmarked,
-                showCheckPoint: showCheckPoint,
-                controllerIconSize: widget.controllerIconSize,
-                fullScreenIconSize: widget.fullScreenIconSize,
-                buttonColor: widget.buttonColor,
-              );
+        return NormalScreenVideo(
+          controller: controller!,
+          content: contents[currentIndex],
+          onTapPrevious: onTapPrevious,
+          onTapNext: onTapNext,
+          onShowController: onShowController,
+          onHideController: onHideController,
+          onTapBookmark: _onTapBookmark,
+          onTapCheckPoint: _onTapCheckPoint,
+          onCloseCheckPoint: _onCloseCheckPoint,
+          onTapRepeat: _onTapRepeat,
+          seekTime: widget.seekTime,
+          showController: showController,
+          isBookmarked: isBookmarked,
+          showCheckPoint: showCheckPoint,
+          controllerIconSize: widget.controllerIconSize,
+          fullScreenIconSize: widget.fullScreenIconSize,
+          buttonColor: widget.buttonColor,
+        );
       },
       error: (error, stackTrace) {
         return Center(

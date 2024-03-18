@@ -4,6 +4,7 @@ import 'package:all_in_one_flutter/feat/video_player/view/check_point.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/player_controller.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/seek_to_control.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 
@@ -14,12 +15,12 @@ class NormalScreenVideo extends StatefulWidget {
     required this.content,
     required this.onTapPrevious,
     required this.onTapNext,
-    required this.onTapFullScreen,
     required this.onShowController,
     required this.onHideController,
     required this.onTapBookmark,
     required this.onTapCheckPoint,
     required this.onCloseCheckPoint,
+    required this.onTapRepeat,
     required this.seekTime,
     required this.showController,
     required this.isBookmarked,
@@ -33,12 +34,12 @@ class NormalScreenVideo extends StatefulWidget {
   final Content content;
   final void Function() onTapPrevious;
   final void Function() onTapNext;
-  final void Function() onTapFullScreen;
   final void Function() onShowController;
   final void Function() onHideController;
   final void Function() onTapBookmark;
   final void Function() onTapCheckPoint;
   final void Function() onCloseCheckPoint;
+  final void Function() onTapRepeat;
   final int seekTime;
   final bool showController;
   final bool isBookmarked;
@@ -52,85 +53,128 @@ class NormalScreenVideo extends StatefulWidget {
 }
 
 class _NormalScreenVideoState extends State<NormalScreenVideo> {
+  bool isFullScreen = false;
+
+  void _showStatusBar() {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
+  }
+
+  void _onTapFullScreen() {
+    isFullScreen = !isFullScreen;
+
+    if (isFullScreen) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+    } else {
+      _showStatusBar();
+    }
+
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _showStatusBar();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Parents(
-      title: 'Video player',
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: widget.controller.value.isInitialized
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 48.w,
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.white,
-                  ),
-                  Expanded(
-                    child: Column(
+    return isFullScreen
+        ? _buildPlayer()
+        : Parents(
+            title: 'Video player',
+            body: Align(
+              alignment: Alignment.topCenter,
+              child: widget.controller.value.isInitialized
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Stack(
-                            children: [
-                              VideoPlayer(widget.controller),
-                              SeekToControl(
-                                controller: widget.controller,
-                                onShowController: widget.onShowController,
-                                onTapFullScreen: widget.onTapFullScreen,
-                                seekTime: widget.seekTime,
-                              ),
-                              if (widget.showController)
-                                Positioned.fill(
-                                  child: PlayerController(
-                                    controller: widget.controller,
-                                    content: widget.content,
-                                    onTapPrevious: widget.onTapPrevious,
-                                    onTapNext: widget.onTapNext,
-                                    onShowController: widget.onShowController,
-                                    onHideController: widget.onHideController,
-                                    onTapFullScreen: widget.onTapFullScreen,
-                                    onTapBookmark: widget.onTapBookmark,
-                                    onTapCheckPoint: widget.onTapCheckPoint,
-                                    buttonColor: widget.buttonColor,
-                                    fullScreenIconSize:
-                                        widget.fullScreenIconSize,
-                                    controllerIconSize:
-                                        widget.controllerIconSize,
-                                    isBookmarked: widget.isBookmarked,
-                                  ),
-                                ),
-                              if (widget.showCheckPoint)
-                                CheckPoint(
-                                  onCloseCheckPoint: widget.onCloseCheckPoint,
-                                ),
-                            ],
-                          ),
-                        ),
-                        // TODO
                         Container(
-                          height: 48.w,
-                          alignment: Alignment.centerRight,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
+                          width: 48.w,
+                          height: MediaQuery.of(context).size.height,
+                          color: Colors.white,
+                        ),
+                        Expanded(
+                          child: Column(
                             children: [
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text('이전'),
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text('다음'),
+                              Expanded(child: _buildPlayer()),
+                              // TODO
+                              Container(
+                                height: 48.w,
+                                alignment: Alignment.centerRight,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: const Text('이전'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: const Text('다음'),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                ],
-              )
-            : const Center(child: CircularProgressIndicator()),
+                    )
+                  : const Center(child: CircularProgressIndicator()),
+            ),
+          );
+  }
+
+  Widget _buildPlayer() {
+    return Material(
+      child: Container(
+        color: Colors.black,
+        child: Stack(
+          children: [
+            Center(
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: VideoPlayer(widget.controller),
+              ),
+            ),
+            SeekToControl(
+              controller: widget.controller,
+              onShowController: widget.onShowController,
+              onTapFullScreen: _onTapFullScreen,
+              seekTime: widget.seekTime,
+              isFullScreen: isFullScreen,
+            ),
+            if (widget.showController)
+              Positioned.fill(
+                child: PlayerController(
+                  controller: widget.controller,
+                  content: widget.content,
+                  onTapPrevious: widget.onTapPrevious,
+                  onTapNext: widget.onTapNext,
+                  onShowController: widget.onShowController,
+                  onHideController: widget.onHideController,
+                  onTapBookmark: widget.onTapBookmark,
+                  onTapCheckPoint: widget.onTapCheckPoint,
+                  onTapFullScreen: _onTapFullScreen,
+                  onTapRepeat: widget.onTapRepeat,
+                  buttonColor: widget.buttonColor,
+                  fullScreenIconSize: widget.fullScreenIconSize,
+                  controllerIconSize: widget.controllerIconSize,
+                  isBookmarked: widget.isBookmarked,
+                  isFullScreen: isFullScreen,
+                ),
+              ),
+            if (widget.showCheckPoint)
+              CheckPoint(
+                onCloseCheckPoint: widget.onCloseCheckPoint,
+              ),
+          ],
+        ),
       ),
     );
   }

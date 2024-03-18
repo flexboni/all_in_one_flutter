@@ -11,6 +11,7 @@ class Strings {
   static const String CATEGORY = '유형';
   static const String BOOKMARK = '북마크';
   static const String CHECK_POINT = '체크 포인트';
+  static const String SPEED = '속도';
 
   static const String ERROR_STATE_INFO_IS_NULL = '상태 오류';
   static const String ERROR_SAVE_INFO = '정보 저장에 실패했습니다.';

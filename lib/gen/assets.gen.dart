@@ -159,6 +159,30 @@ class $AssetsIconsPencilGen {
 class $AssetsIconsPlayerGen {
   const $AssetsIconsPlayerGen();
 
+  /// File path: assets/icons/player/bookmark_active.svg
+  SvgGenImage get bookmarkActive =>
+      const SvgGenImage('assets/icons/player/bookmark_active.svg');
+
+  /// File path: assets/icons/player/bookmark_outlined.svg
+  SvgGenImage get bookmarkOutlined =>
+      const SvgGenImage('assets/icons/player/bookmark_outlined.svg');
+
+  /// File path: assets/icons/player/check_point.svg
+  SvgGenImage get checkPoint =>
+      const SvgGenImage('assets/icons/player/check_point.svg');
+
+  /// File path: assets/icons/player/forword_10_sec.svg
+  SvgGenImage get forword10Sec =>
+      const SvgGenImage('assets/icons/player/forword_10_sec.svg');
+
+  /// File path: assets/icons/player/full_screen_active.svg
+  SvgGenImage get fullScreenActive =>
+      const SvgGenImage('assets/icons/player/full_screen_active.svg');
+
+  /// File path: assets/icons/player/full_screen_default.svg
+  SvgGenImage get fullScreenDefault =>
+      const SvgGenImage('assets/icons/player/full_screen_default.svg');
+
   /// File path: assets/icons/player/next.svg
   SvgGenImage get next => const SvgGenImage('assets/icons/player/next.svg');
 
@@ -172,8 +196,28 @@ class $AssetsIconsPlayerGen {
   SvgGenImage get previous =>
       const SvgGenImage('assets/icons/player/previous.svg');
 
+  /// File path: assets/icons/player/previous_10_sec.svg
+  SvgGenImage get previous10Sec =>
+      const SvgGenImage('assets/icons/player/previous_10_sec.svg');
+
+  /// File path: assets/icons/player/repeat.svg
+  SvgGenImage get repeat => const SvgGenImage('assets/icons/player/repeat.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [next, pause, play, previous];
+  List<SvgGenImage> get values => [
+        bookmarkActive,
+        bookmarkOutlined,
+        checkPoint,
+        forword10Sec,
+        fullScreenActive,
+        fullScreenDefault,
+        next,
+        pause,
+        play,
+        previous,
+        previous10Sec,
+        repeat
+      ];
 }
 
 class $AssetsImagesDragDropGen {

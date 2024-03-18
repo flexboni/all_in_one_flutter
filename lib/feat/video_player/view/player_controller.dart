@@ -18,13 +18,15 @@ class PlayerController extends ConsumerWidget {
     required this.onTapNext,
     required this.onShowController,
     required this.onHideController,
-    required this.onTapFullScreen,
     required this.onTapBookmark,
     required this.onTapCheckPoint,
+    required this.onTapFullScreen,
+    required this.onTapRepeat,
     required this.buttonColor,
     required this.fullScreenIconSize,
     required this.controllerIconSize,
     required this.isBookmarked,
+    required this.isFullScreen,
   });
 
   final VideoPlayerController controller;
@@ -33,13 +35,15 @@ class PlayerController extends ConsumerWidget {
   final void Function() onTapNext;
   final void Function() onShowController;
   final void Function() onHideController;
-  final void Function() onTapFullScreen;
   final void Function() onTapBookmark;
   final void Function() onTapCheckPoint;
+  final void Function() onTapFullScreen;
+  final void Function() onTapRepeat;
   final Color buttonColor;
   final double fullScreenIconSize;
   final double controllerIconSize;
   final bool isBookmarked;
+  final bool isFullScreen;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,24 +54,28 @@ class PlayerController extends ConsumerWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 24.w,
+                      vertical: 17.w,
+                    ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Type
                         Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 8.w,
-                            vertical: 7.w,
+                            vertical: 5.w,
                           ),
                           decoration: ShapeDecoration(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
-                                2.r,
+                                32.r,
                               ),
                             ),
                             color:
@@ -79,7 +87,8 @@ class PlayerController extends ConsumerWidget {
                             Content.lectureTypeToName(content.lectureType),
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 12.sp,
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
@@ -107,14 +116,14 @@ class PlayerController extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  Column(
-                    children: [
-                      _buildSlider(),
-                      _buildBottomButtons(),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                Column(
+                  children: [
+                    _buildSlider(),
+                    _buildBottomButtons(),
+                  ],
+                ),
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -159,72 +168,91 @@ class PlayerController extends ConsumerWidget {
     final Duration playDuration = controller.value.position;
     final Duration totalDuration = controller.value.duration;
 
-    return Row(
-      children: [
-        Expanded(
-          child: Slider(
-            value: playDuration.inMilliseconds / totalDuration.inMilliseconds,
-            onChanged: (double value) {},
-            activeColor: Colors.green,
+    return Padding(
+      padding: EdgeInsets.only(left: 12.w, right: 24.w),
+      child: Row(
+        children: [
+          Expanded(
+            child: Slider(
+              value: playDuration.inMilliseconds / totalDuration.inMilliseconds,
+              onChanged: (double value) {},
+              activeColor: Colors.green,
+            ),
           ),
-        ),
-        Text(
-          AppDateUtils.convertDurationToMMSS(playDuration),
-          style: TextStyle(color: Colors.white, fontSize: 12.sp),
-        ),
-        Text(
-          '/ ${AppDateUtils.convertDurationToMMSS(totalDuration)}',
-          style: TextStyle(color: Colors.grey, fontSize: 12.sp),
-        ),
-      ],
+          Text(
+            AppDateUtils.convertDurationToMMSS(playDuration),
+            style: TextStyle(color: Colors.white, fontSize: 12.sp),
+          ),
+          Text(
+            '/ ${AppDateUtils.convertDurationToMMSS(totalDuration)}',
+            style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildBottomButtons() {
-    return Row(
-      children: [
-        Row(
-          children: [
-            TextButton.icon(
-              onPressed: onTapBookmark,
-              icon: isBookmarked
-                  ? const Icon(Icons.bookmark)
-                  : const Icon(Icons.bookmark_border_outlined),
-              label: const Text(Strings.BOOKMARK),
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                textStyle: TextStyle(fontSize: 20.sp),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, 8.w),
+      child: Row(
+        children: [
+          Row(
+            children: [
+              TextButton.icon(
+                onPressed: onTapBookmark,
+                icon: isBookmarked
+                    ? Assets.icons.player.bookmarkActive.svg()
+                    : Assets.icons.player.bookmarkOutlined.svg(),
+                label: const Text(Strings.BOOKMARK),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  textStyle: TextStyle(fontSize: 20.sp),
+                ),
               ),
-            ),
-            TextButton.icon(
-              onPressed: onTapCheckPoint,
-              icon: const Icon(Icons.checklist_rounded),
-              label: const Text(Strings.CHECK_POINT),
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                textStyle: TextStyle(fontSize: 20.sp),
+              TextButton.icon(
+                onPressed: onTapCheckPoint,
+                icon: Assets.icons.player.checkPoint.svg(),
+                label: const Text(Strings.CHECK_POINT),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  textStyle: TextStyle(fontSize: 20.sp),
+                ),
               ),
-            ),
-          ],
-        ),
-        const Spacer(),
-        Row(
-          children: [
-            SpeedChangeButton(
-              controller: controller,
-              onShowController: onShowController,
-            ),
-            IconButton(
-              onPressed: onTapFullScreen,
-              icon: Icon(
-                Icons.fullscreen,
-                color: buttonColor,
-                size: fullScreenIconSize,
+            ],
+          ),
+          const Spacer(),
+          Row(
+            children: [
+              SpeedChangeButton(
+                controller: controller,
+                onShowController: onShowController,
               ),
-            ),
-          ],
-        ),
-      ],
+              IconButton(
+                onPressed: onTapRepeat,
+                icon: Assets.icons.player.repeat.svg(
+                  width: fullScreenIconSize,
+                  colorFilter: ColorFilter.mode(buttonColor, BlendMode.srcIn),
+                ),
+              ),
+              IconButton(
+                onPressed: onTapFullScreen,
+                icon: isFullScreen
+                    ? Assets.icons.player.fullScreenActive.svg(
+                        width: fullScreenIconSize,
+                        colorFilter:
+                            ColorFilter.mode(buttonColor, BlendMode.srcIn),
+                      )
+                    : Assets.icons.player.fullScreenDefault.svg(
+                        width: fullScreenIconSize,
+                        colorFilter:
+                            ColorFilter.mode(buttonColor, BlendMode.srcIn),
+                      ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

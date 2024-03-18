@@ -1,3 +1,4 @@
+import 'package:all_in_one_flutter/constant/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -73,18 +74,13 @@ class SpeedChangeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final double fontSize = 20.sp;
 
-    return TextButton.icon(
+    return TextButton(
       onPressed: () {
         _onPressed(context);
         onShowController();
       },
-      icon: Icon(
-        Icons.keyboard_arrow_down_rounded,
-        color: Colors.white,
-        size: fontSize,
-      ),
-      label: Text(
-        '${controller.value.playbackSpeed}',
+      child: Text(
+        '${Strings.SPEED} ${controller.value.playbackSpeed}x',
         style: TextStyle(color: Colors.white, fontSize: fontSize),
       ),
     );
