@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CheckPoint extends StatelessWidget {
-  const CheckPoint({super.key, required this.onCloseCheckPoint});
+  const CheckPoint({super.key, required this.onClose});
 
-  final void Function() onCloseCheckPoint;
+  final void Function() onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CheckPoint extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: onCloseCheckPoint,
+                  onPressed: onClose,
                   icon: Icon(
                     Icons.close_rounded,
                     color: Colors.white,

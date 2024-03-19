@@ -4,6 +4,7 @@ import 'package:all_in_one_flutter/core/widgets/widgets.dart';
 import 'package:all_in_one_flutter/feat/video_player/model/content.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/play_repeat_button.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/speed_change_button.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/type_indicator.dart';
 import 'package:all_in_one_flutter/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +25,7 @@ class PlayerController extends ConsumerWidget {
     required this.onTapCheckPoint,
     required this.onTapFullScreen,
     this.onTapRepeat,
+    required this.onTapPlaylist,
     required this.isBookmarked,
     required this.isFullScreen,
     required this.isMultiplePlaylist,
@@ -41,6 +43,7 @@ class PlayerController extends ConsumerWidget {
   final void Function() onTapCheckPoint;
   final void Function() onTapFullScreen;
   final void Function(RepeatMode mode)? onTapRepeat;
+  final void Function() onTapPlaylist;
   final bool isBookmarked;
   final bool isFullScreen;
   final bool isMultiplePlaylist;
@@ -124,26 +127,7 @@ class PlayerController extends ConsumerWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Type
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.w),
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32.r),
-                ),
-                color: content.lectureType == Keys.LECTURE_TYPE_CONCEPT
-                    ? Colors.green
-                    : Colors.orange,
-              ),
-              child: Text(
-                Content.lectureTypeToName(content.lectureType),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 11.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
+            TypeIndicator(type: content.lectureType),
             SpaceH(size: 8.w),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,8 +193,6 @@ class PlayerController extends ConsumerWidget {
   }
 
   Widget _buildBottomButtons() {
-    final double buttonSize = 24.w;
-
     return Padding(
       padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, 8.w),
       child: Row(
@@ -255,13 +237,14 @@ class PlayerController extends ConsumerWidget {
               IconButton(
                 onPressed: onTapFullScreen,
                 icon: isFullScreen
-                    ? Assets.icons.player.fullScreenActive.svg(
-                        width: buttonSize,
-                      )
-                    : Assets.icons.player.fullScreenDefault.svg(
-                        width: buttonSize,
-                      ),
+                    ? Assets.icons.player.fullScreenActive.svg()
+                    : Assets.icons.player.fullScreenDefault.svg(),
               ),
+              if (contents.length > 1)
+                IconButton(
+                  onPressed: onTapPlaylist,
+                  icon: Assets.icons.player.playlist.svg(),
+                ),
             ],
           ),
         ],

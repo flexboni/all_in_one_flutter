@@ -6,16 +6,15 @@ import 'package:all_in_one_flutter/feat/video_player/view/check_point.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/play_repeat_button.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/player_bottom_buttons.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/player_controller.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/playlist.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/seek_to_control.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 
-enum PlayerStatus { none, initialized, buffering, playing, completed }
-
-class NormalScreenVideo extends StatefulWidget {
-  const NormalScreenVideo({
+class CustomVideoPlayer extends StatefulWidget {
+  const CustomVideoPlayer({
     super.key,
     required this.contents,
     required this.onTapBookmark,
@@ -27,16 +26,17 @@ class NormalScreenVideo extends StatefulWidget {
   final bool showBottomButtons;
 
   @override
-  State<NormalScreenVideo> createState() => _NormalScreenVideoState();
+  State<CustomVideoPlayer> createState() => _CustomVideoPlayerState();
 }
 
-class _NormalScreenVideoState extends State<NormalScreenVideo> {
+class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   bool isFullScreen = false;
   VideoPlayerController? controller;
 
   bool showPlayerController = false;
   bool isBookmarked = false;
   bool showCheckPoint = false;
+  bool showPlaylist = false;
 
   Timer? controllerTimer;
 
@@ -145,12 +145,9 @@ class _NormalScreenVideoState extends State<NormalScreenVideo> {
       return;
     }
 
-    _onCancelControllerTimer();
-    _initControllerTimer();
-
     _initialVideoPlayerController(widget.contents[--currentIndex]);
 
-    setState(() {});
+    _onShowPlayerController();
   }
 
   void _onTapNext() {
@@ -158,35 +155,26 @@ class _NormalScreenVideoState extends State<NormalScreenVideo> {
       return;
     }
 
-    _onCancelControllerTimer();
-    _initControllerTimer();
-
     _initialVideoPlayerController(widget.contents[++currentIndex]);
 
-    setState(() {});
+    _onShowPlayerController();
   }
 
   void _onTapBookmark() {
     isBookmarked = !isBookmarked;
 
-    _onCancelControllerTimer();
-    _initControllerTimer();
-
     widget.onTapBookmark(isBookmarked);
 
-    setState(() {});
+    _onShowPlayerController();
   }
 
   void _onTapCheckPoint() {
-    _onCancelControllerTimer();
-    _initControllerTimer();
+    showCheckPoint = !showCheckPoint;
 
-    setState(() {
-      showCheckPoint = !showCheckPoint;
-    });
+    _onShowPlayerController();
   }
 
-  void _onCloseCheckPoint() {
+  void _onTapCloseCheckPoint() {
     setState(() {
       showCheckPoint = false;
     });
@@ -195,24 +183,30 @@ class _NormalScreenVideoState extends State<NormalScreenVideo> {
   void _onTapFullScreen() {
     isFullScreen = !isFullScreen;
 
-    _onCancelControllerTimer();
-    _initControllerTimer();
-
     if (isFullScreen) {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     } else {
       _showStatusBar();
     }
 
-    setState(() {});
+    _onShowPlayerController();
   }
 
   void _onTapRepeat(RepeatMode mode) {
-    _onCancelControllerTimer();
-    _initControllerTimer();
+    repeatMode = mode;
 
+    _onShowPlayerController();
+  }
+
+  void _onTapPlayList() {
+    showPlaylist = true;
+
+    _onShowPlayerController();
+  }
+
+  void _onTapClosePlaylist() {
     setState(() {
-      repeatMode = mode;
+      showPlaylist = false;
     });
   }
 
@@ -288,14 +282,20 @@ class _NormalScreenVideoState extends State<NormalScreenVideo> {
                   onTapCheckPoint: _onTapCheckPoint,
                   onTapFullScreen: _onTapFullScreen,
                   onTapRepeat: _onTapRepeat,
+                  onTapPlaylist: _onTapPlayList,
                   isBookmarked: isBookmarked,
                   isFullScreen: isFullScreen,
                   isMultiplePlaylist: widget.contents.length > 1,
                   repeatMode: repeatMode,
                 ),
               ),
-            if (showCheckPoint)
-              CheckPoint(onCloseCheckPoint: _onCloseCheckPoint),
+            if (showCheckPoint) CheckPoint(onClose: _onTapCloseCheckPoint),
+            if (showPlaylist)
+              Playlist(
+                onClose: _onTapClosePlaylist,
+                currentIndex: currentIndex,
+                contents: widget.contents,
+              ),
           ],
         ),
       ),

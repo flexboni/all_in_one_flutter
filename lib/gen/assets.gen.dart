@@ -171,6 +171,9 @@ class $AssetsIconsPlayerGen {
   SvgGenImage get checkPoint =>
       const SvgGenImage('assets/icons/player/check_point.svg');
 
+  /// File path: assets/icons/player/close.svg
+  SvgGenImage get close => const SvgGenImage('assets/icons/player/close.svg');
+
   /// File path: assets/icons/player/full_screen_active.svg
   SvgGenImage get fullScreenActive =>
       const SvgGenImage('assets/icons/player/full_screen_active.svg');
@@ -191,6 +194,10 @@ class $AssetsIconsPlayerGen {
 
   /// File path: assets/icons/player/play.svg
   SvgGenImage get play => const SvgGenImage('assets/icons/player/play.svg');
+
+  /// File path: assets/icons/player/playlist.svg
+  SvgGenImage get playlist =>
+      const SvgGenImage('assets/icons/player/playlist.svg');
 
   /// File path: assets/icons/player/previous.svg
   SvgGenImage get previous =>
@@ -216,12 +223,14 @@ class $AssetsIconsPlayerGen {
         bookmarkActive,
         bookmarkOutlined,
         checkPoint,
+        close,
         fullScreenActive,
         fullScreenDefault,
         next,
         nextVideo,
         pause,
         play,
+        playlist,
         previous,
         previousVideo,
         repeat,
