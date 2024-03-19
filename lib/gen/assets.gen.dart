@@ -171,10 +171,6 @@ class $AssetsIconsPlayerGen {
   SvgGenImage get checkPoint =>
       const SvgGenImage('assets/icons/player/check_point.svg');
 
-  /// File path: assets/icons/player/forword_10_sec.svg
-  SvgGenImage get forword10Sec =>
-      const SvgGenImage('assets/icons/player/forword_10_sec.svg');
-
   /// File path: assets/icons/player/full_screen_active.svg
   SvgGenImage get fullScreenActive =>
       const SvgGenImage('assets/icons/player/full_screen_active.svg');
@@ -186,6 +182,10 @@ class $AssetsIconsPlayerGen {
   /// File path: assets/icons/player/next.svg
   SvgGenImage get next => const SvgGenImage('assets/icons/player/next.svg');
 
+  /// File path: assets/icons/player/next_video.svg
+  SvgGenImage get nextVideo =>
+      const SvgGenImage('assets/icons/player/next_video.svg');
+
   /// File path: assets/icons/player/pause.svg
   SvgGenImage get pause => const SvgGenImage('assets/icons/player/pause.svg');
 
@@ -196,27 +196,37 @@ class $AssetsIconsPlayerGen {
   SvgGenImage get previous =>
       const SvgGenImage('assets/icons/player/previous.svg');
 
-  /// File path: assets/icons/player/previous_10_sec.svg
-  SvgGenImage get previous10Sec =>
-      const SvgGenImage('assets/icons/player/previous_10_sec.svg');
+  /// File path: assets/icons/player/previous_video.svg
+  SvgGenImage get previousVideo =>
+      const SvgGenImage('assets/icons/player/previous_video.svg');
 
   /// File path: assets/icons/player/repeat.svg
   SvgGenImage get repeat => const SvgGenImage('assets/icons/player/repeat.svg');
+
+  /// File path: assets/icons/player/repeat_all.svg
+  SvgGenImage get repeatAll =>
+      const SvgGenImage('assets/icons/player/repeat_all.svg');
+
+  /// File path: assets/icons/player/repeat_one.svg
+  SvgGenImage get repeatOne =>
+      const SvgGenImage('assets/icons/player/repeat_one.svg');
 
   /// List of all assets
   List<SvgGenImage> get values => [
         bookmarkActive,
         bookmarkOutlined,
         checkPoint,
-        forword10Sec,
         fullScreenActive,
         fullScreenDefault,
         next,
+        nextVideo,
         pause,
         play,
         previous,
-        previous10Sec,
-        repeat
+        previousVideo,
+        repeat,
+        repeatAll,
+        repeatOne
       ];
 }
 

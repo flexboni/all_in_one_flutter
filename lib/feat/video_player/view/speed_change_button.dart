@@ -60,7 +60,7 @@ class SpeedChangeButton extends StatelessWidget {
                   selected: isSelected,
                   selectedColor: Colors.red,
                   textColor: Colors.white,
-                  titleTextStyle: TextStyle(fontSize: 20.sp),
+                  titleTextStyle: TextStyle(fontSize: 14.sp),
                   title: Text(item.toString()),
                 );
               },
@@ -72,8 +72,6 @@ class SpeedChangeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double fontSize = 20.sp;
-
     return TextButton(
       onPressed: () {
         _onPressed(context);
@@ -81,7 +79,7 @@ class SpeedChangeButton extends StatelessWidget {
       },
       child: Text(
         '${Strings.SPEED} ${controller.value.playbackSpeed}x',
-        style: TextStyle(color: Colors.white, fontSize: fontSize),
+        style: TextStyle(color: Colors.white, fontSize: 14.sp),
       ),
     );
   }

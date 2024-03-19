@@ -2,6 +2,7 @@ import 'package:all_in_one_flutter/constant/constants.dart';
 import 'package:all_in_one_flutter/core/utils/utils.dart';
 import 'package:all_in_one_flutter/core/widgets/widgets.dart';
 import 'package:all_in_one_flutter/feat/video_player/model/content.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/play_repeat_button.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/speed_change_button.dart';
 import 'package:all_in_one_flutter/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,8 @@ class PlayerController extends ConsumerWidget {
   const PlayerController({
     super.key,
     required this.controller,
-    required this.content,
+    required this.contents,
+    required this.currentIndex,
     required this.onTapPrevious,
     required this.onTapNext,
     required this.onShowController,
@@ -21,16 +23,16 @@ class PlayerController extends ConsumerWidget {
     required this.onTapBookmark,
     required this.onTapCheckPoint,
     required this.onTapFullScreen,
-    required this.onTapRepeat,
-    required this.buttonColor,
-    required this.fullScreenIconSize,
-    required this.controllerIconSize,
+    this.onTapRepeat,
     required this.isBookmarked,
     required this.isFullScreen,
+    required this.isMultiplePlaylist,
+    required this.repeatMode,
   });
 
   final VideoPlayerController controller;
-  final Content content;
+  final List<Content> contents;
+  final int currentIndex;
   final void Function() onTapPrevious;
   final void Function() onTapNext;
   final void Function() onShowController;
@@ -38,15 +40,18 @@ class PlayerController extends ConsumerWidget {
   final void Function() onTapBookmark;
   final void Function() onTapCheckPoint;
   final void Function() onTapFullScreen;
-  final void Function() onTapRepeat;
-  final Color buttonColor;
-  final double fullScreenIconSize;
-  final double controllerIconSize;
+  final void Function(RepeatMode mode)? onTapRepeat;
   final bool isBookmarked;
   final bool isFullScreen;
+  final bool isMultiplePlaylist;
+  final RepeatMode repeatMode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final Content content = contents[currentIndex];
+    final bool isFirst = currentIndex == 0;
+    final bool isLast = currentIndex == contents.length - 1;
+
     return GestureDetector(
       onTap: onHideController,
       child: Container(
@@ -57,82 +62,24 @@ class PlayerController extends ConsumerWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.w,
-                      vertical: 17.w,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Type
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.w,
-                            vertical: 5.w,
-                          ),
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                32.r,
-                              ),
-                            ),
-                            color:
-                                content.lectureType == Keys.LECTURE_TYPE_CONCEPT
-                                    ? Colors.green
-                                    : Colors.orange,
-                          ),
-                          child: Text(
-                            Content.lectureTypeToName(content.lectureType),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        SpaceH(size: 8.w),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              content.title,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              content.structure,
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Column(
-                  children: [
-                    _buildSlider(),
-                    _buildBottomButtons(),
-                  ],
-                ),
+                _buildTopInformation(content),
+                Column(children: [_buildSlider(), _buildBottomButtons()]),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  onPressed: onTapPrevious,
-                  icon: Assets.icons.player.previous.svg(),
-                ),
+                if (isMultiplePlaylist)
+                  IconButton(
+                    onPressed: isFirst ? null : onTapPrevious,
+                    icon: Assets.icons.player.previousVideo.svg(
+                      colorFilter: ColorFilter.mode(
+                        isFirst ? Colors.grey : Colors.white,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
                 SpaceH(size: 40.w),
                 SizedBox(
                   width: 60.w,
@@ -152,12 +99,69 @@ class PlayerController extends ConsumerWidget {
                   ),
                 ),
                 SpaceH(size: 40.w),
-                IconButton(
-                  onPressed: onTapNext,
-                  icon: Assets.icons.player.next.svg(),
-                ),
+                if (isMultiplePlaylist)
+                  IconButton(
+                    onPressed: isLast ? null : onTapNext,
+                    icon: Assets.icons.player.nextVideo.svg(
+                      colorFilter: ColorFilter.mode(
+                        isLast ? Colors.grey : Colors.white,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
               ],
             )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTopInformation(Content content) {
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 17.w),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Type
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.w),
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32.r),
+                ),
+                color: content.lectureType == Keys.LECTURE_TYPE_CONCEPT
+                    ? Colors.green
+                    : Colors.orange,
+              ),
+              child: Text(
+                Content.lectureTypeToName(content.lectureType),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            SpaceH(size: 8.w),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  content.title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  content.structure,
+                  style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -173,10 +177,22 @@ class PlayerController extends ConsumerWidget {
       child: Row(
         children: [
           Expanded(
-            child: Slider(
-              value: playDuration.inMilliseconds / totalDuration.inMilliseconds,
-              onChanged: (double value) {},
-              activeColor: Colors.green,
+            child: SliderTheme(
+              data: const SliderThemeData(
+                trackHeight: 2,
+                thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8),
+              ),
+              child: Slider(
+                value: playDuration.inSeconds.toDouble(),
+                max: totalDuration.inSeconds.toDouble(),
+                onChanged: (double value) {
+                  onShowController();
+
+                  controller.seekTo(Duration(seconds: value.toInt()));
+                },
+                activeColor: Colors.green,
+                inactiveColor: Colors.grey,
+              ),
             ),
           ),
           Text(
@@ -193,6 +209,8 @@ class PlayerController extends ConsumerWidget {
   }
 
   Widget _buildBottomButtons() {
+    final double buttonSize = 24.w;
+
     return Padding(
       padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, 8.w),
       child: Row(
@@ -207,7 +225,7 @@ class PlayerController extends ConsumerWidget {
                 label: const Text(Strings.BOOKMARK),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
-                  textStyle: TextStyle(fontSize: 20.sp),
+                  textStyle: TextStyle(fontSize: 14.sp),
                 ),
               ),
               TextButton.icon(
@@ -216,7 +234,7 @@ class PlayerController extends ConsumerWidget {
                 label: const Text(Strings.CHECK_POINT),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
-                  textStyle: TextStyle(fontSize: 20.sp),
+                  textStyle: TextStyle(fontSize: 14.sp),
                 ),
               ),
             ],
@@ -228,25 +246,20 @@ class PlayerController extends ConsumerWidget {
                 controller: controller,
                 onShowController: onShowController,
               ),
-              IconButton(
-                onPressed: onTapRepeat,
-                icon: Assets.icons.player.repeat.svg(
-                  width: fullScreenIconSize,
-                  colorFilter: ColorFilter.mode(buttonColor, BlendMode.srcIn),
-                ),
+              PlayRepeatButton(
+                controller: controller,
+                repeatMode: repeatMode,
+                isMultiplePlaylist: isMultiplePlaylist,
+                onTapRepeat: onTapRepeat,
               ),
               IconButton(
                 onPressed: onTapFullScreen,
                 icon: isFullScreen
                     ? Assets.icons.player.fullScreenActive.svg(
-                        width: fullScreenIconSize,
-                        colorFilter:
-                            ColorFilter.mode(buttonColor, BlendMode.srcIn),
+                        width: buttonSize,
                       )
                     : Assets.icons.player.fullScreenDefault.svg(
-                        width: fullScreenIconSize,
-                        colorFilter:
-                            ColorFilter.mode(buttonColor, BlendMode.srcIn),
+                        width: buttonSize,
                       ),
               ),
             ],
