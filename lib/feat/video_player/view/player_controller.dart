@@ -1,14 +1,14 @@
-import 'package:all_in_one_flutter/constant/constants.dart';
-import 'package:all_in_one_flutter/core/utils/utils.dart';
 import 'package:all_in_one_flutter/core/widgets/widgets.dart';
 import 'package:all_in_one_flutter/feat/video_player/model/content.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/play_repeat_button.dart';
-import 'package:all_in_one_flutter/feat/video_player/view/speed_change_button.dart';
-import 'package:all_in_one_flutter/feat/video_player/view/type_indicator.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/player_controller_bottom_buttons.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/player_information.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/player_slider.dart';
 import 'package:all_in_one_flutter/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 
 class PlayerController extends ConsumerWidget {
@@ -29,6 +29,7 @@ class PlayerController extends ConsumerWidget {
     required this.isBookmarked,
     required this.isFullScreen,
     required this.isMultiplePlaylist,
+    required this.isPopup,
     required this.repeatMode,
   });
 
@@ -47,6 +48,7 @@ class PlayerController extends ConsumerWidget {
   final bool isBookmarked;
   final bool isFullScreen;
   final bool isMultiplePlaylist;
+  final bool isPopup;
   final RepeatMode repeatMode;
 
   @override
@@ -65,8 +67,47 @@ class PlayerController extends ConsumerWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildTopInformation(content),
-                Column(children: [_buildSlider(), _buildBottomButtons()]),
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: PlayerInformation(
+                          type: content.lectureType,
+                          title: content.title,
+                          subTitle: content.structure,
+                        ),
+                      ),
+                      if (isPopup)
+                        IconButton(
+                          onPressed: () => context.pop(),
+                          icon: Assets.icons.player.close.svg(),
+                        ),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    PlayerSlider(
+                      controller: controller,
+                      onShowController: onShowController,
+                    ),
+                    PlayerControllerBottomButtons(
+                      controller: controller,
+                      onTapBookmark: onTapBookmark,
+                      onTapCheckPoint: onTapCheckPoint,
+                      onShowController: onShowController,
+                      onTapRepeat: onTapRepeat,
+                      onTapFullScreen: onTapFullScreen,
+                      onTapPlaylist: onTapPlaylist,
+                      isBookmarked: isBookmarked,
+                      isMultiplePlaylist: isMultiplePlaylist,
+                      isFullScreen: isFullScreen,
+                      isPopup: isPopup,
+                      repeatMode: repeatMode,
+                    )
+                  ],
+                ),
               ],
             ),
             Row(
@@ -116,138 +157,6 @@ class PlayerController extends ConsumerWidget {
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildTopInformation(Content content) {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 17.w),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TypeIndicator(type: content.lectureType),
-            SpaceH(size: 8.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  content.title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  content.structure,
-                  style: TextStyle(color: Colors.grey, fontSize: 12.sp),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSlider() {
-    final Duration playDuration = controller.value.position;
-    final Duration totalDuration = controller.value.duration;
-
-    return Padding(
-      padding: EdgeInsets.only(left: 12.w, right: 24.w),
-      child: Row(
-        children: [
-          Expanded(
-            child: SliderTheme(
-              data: const SliderThemeData(
-                trackHeight: 2,
-                thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8),
-              ),
-              child: Slider(
-                value: playDuration.inSeconds.toDouble(),
-                max: totalDuration.inSeconds.toDouble(),
-                onChanged: (double value) {
-                  onShowController();
-
-                  controller.seekTo(Duration(seconds: value.toInt()));
-                },
-                activeColor: Colors.green,
-                inactiveColor: Colors.grey,
-              ),
-            ),
-          ),
-          Text(
-            AppDateUtils.convertDurationToMMSS(playDuration),
-            style: TextStyle(color: Colors.white, fontSize: 12.sp),
-          ),
-          Text(
-            '/ ${AppDateUtils.convertDurationToMMSS(totalDuration)}',
-            style: TextStyle(color: Colors.grey, fontSize: 12.sp),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBottomButtons() {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, 8.w),
-      child: Row(
-        children: [
-          Row(
-            children: [
-              TextButton.icon(
-                onPressed: onTapBookmark,
-                icon: isBookmarked
-                    ? Assets.icons.player.bookmarkActive.svg()
-                    : Assets.icons.player.bookmarkOutlined.svg(),
-                label: const Text(Strings.BOOKMARK),
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  textStyle: TextStyle(fontSize: 14.sp),
-                ),
-              ),
-              TextButton.icon(
-                onPressed: onTapCheckPoint,
-                icon: Assets.icons.player.checkPoint.svg(),
-                label: const Text(Strings.CHECK_POINT),
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  textStyle: TextStyle(fontSize: 14.sp),
-                ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          Row(
-            children: [
-              SpeedChangeButton(
-                controller: controller,
-                onShowController: onShowController,
-              ),
-              PlayRepeatButton(
-                controller: controller,
-                repeatMode: repeatMode,
-                isMultiplePlaylist: isMultiplePlaylist,
-                onTapRepeat: onTapRepeat,
-              ),
-              IconButton(
-                onPressed: onTapFullScreen,
-                icon: isFullScreen
-                    ? Assets.icons.player.fullScreenActive.svg()
-                    : Assets.icons.player.fullScreenDefault.svg(),
-              ),
-              if (contents.length > 1)
-                IconButton(
-                  onPressed: onTapPlaylist,
-                  icon: Assets.icons.player.playlist.svg(),
-                ),
-            ],
-          ),
-        ],
       ),
     );
   }

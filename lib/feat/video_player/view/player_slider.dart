@@ -1,75 +1,55 @@
-import 'dart:async';
-
+import 'package:all_in_one_flutter/core/utils/app_date_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 
 class PlayerSlider extends StatelessWidget {
   const PlayerSlider({
     super.key,
     required this.controller,
-    required this.onChangEnd,
-    required this.playTime,
-    required this.endTime,
-    required this.trackHeight,
-    required this.thumbRadius,
-    this.controllerTimer,
-    this.activeTrackColor,
-    this.thumbColor,
+    required this.onShowController,
   });
 
   final VideoPlayerController controller;
-  final void Function() onChangEnd;
-  final Duration playTime;
-  final Duration endTime;
-  final double trackHeight;
-  final double thumbRadius;
-  final Timer? controllerTimer;
-  final Color? activeTrackColor;
-  final Color? thumbColor;
+  final void Function() onShowController;
 
   @override
   Widget build(BuildContext context) {
-    final double percent = playTime.inMilliseconds / endTime.inMilliseconds;
-    return SliderTheme(
-      data: SliderTheme.of(context).copyWith(
-        trackHeight: trackHeight,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: thumbRadius),
-      ),
-      child: Slider(
-        onChanged: (double value) {
-          if (controllerTimer != null) {
-            controllerTimer!.cancel();
-          }
+    final Duration value = controller.value.position;
+    final Duration max = controller.value.duration;
 
-          if (controller.value.isPlaying) {
-            controller.pause();
-          }
+    return Padding(
+      padding: EdgeInsets.only(left: 12.w, right: 24.w),
+      child: Row(
+        children: [
+          Expanded(
+            child: SliderTheme(
+              data: const SliderThemeData(
+                trackHeight: 2,
+                thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8),
+              ),
+              child: Slider(
+                value: value.inSeconds.toDouble(),
+                max: max.inSeconds.toDouble(),
+                onChanged: (double value) {
+                  onShowController();
 
-          controller.seekTo(
-            Duration(
-              milliseconds:
-                  (value * controller.value.duration.inMilliseconds).toInt(),
+                  controller.seekTo(Duration(seconds: value.toInt()));
+                },
+                activeColor: Colors.green,
+                inactiveColor: Colors.grey,
+              ),
             ),
-          );
-        },
-        onChangeEnd: (double value) {
-          controller.seekTo(
-            Duration(
-              milliseconds:
-                  (value * controller.value.duration.inMilliseconds).toInt(),
-            ),
-          );
-
-          if (!controller.value.isPlaying) {
-            controller.play();
-          }
-
-          onChangEnd();
-        },
-        activeColor: activeTrackColor ?? Colors.grey[400],
-        inactiveColor: activeTrackColor ?? Colors.grey[700],
-        thumbColor: thumbColor,
-        value: percent,
+          ),
+          Text(
+            AppDateUtils.convertDurationToMMSS(value),
+            style: TextStyle(color: Colors.white, fontSize: 12.sp),
+          ),
+          Text(
+            '/ ${AppDateUtils.convertDurationToMMSS(max)}',
+            style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+          ),
+        ],
       ),
     );
   }

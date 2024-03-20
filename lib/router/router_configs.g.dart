@@ -18,6 +18,7 @@ List<RouteBase> get $appRoutes => [
       $multiPDFRoute,
       $pencilRoute,
       $videoPlayerRoute,
+      $popupVideoPlayerRoute,
       $flickVideoPlayerRoute,
     ];
 
@@ -254,6 +255,29 @@ extension $VideoPlayerRouteExtension on VideoPlayerRoute {
 
   String get location => GoRouteData.$location(
         '/video-player',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $popupVideoPlayerRoute => GoRouteData.$route(
+      path: '/popup-video-player',
+      factory: $PopupVideoPlayerRouteExtension._fromState,
+    );
+
+extension $PopupVideoPlayerRouteExtension on PopupVideoPlayerRoute {
+  static PopupVideoPlayerRoute _fromState(GoRouterState state) =>
+      const PopupVideoPlayerRoute();
+
+  String get location => GoRouteData.$location(
+        '/popup-video-player',
       );
 
   void go(BuildContext context) => context.go(location);

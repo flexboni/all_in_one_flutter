@@ -1,37 +1,37 @@
 import 'dart:async';
 
-import 'package:all_in_one_flutter/core/widgets/widgets.dart';
 import 'package:all_in_one_flutter/feat/video_player/model/content.dart';
+import 'package:all_in_one_flutter/feat/video_player/view/change_video_buttons.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/check_point.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/play_repeat_button.dart';
-import 'package:all_in_one_flutter/feat/video_player/view/player_bottom_buttons.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/player_controller.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/playlist.dart';
 import 'package:all_in_one_flutter/feat/video_player/view/seek_to_control.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:video_player/video_player.dart';
+import 'package:video_player/video_player.dart' as vp;
 
-class CustomVideoPlayer extends StatefulWidget {
-  const CustomVideoPlayer({
+class VideoPlayer extends StatefulWidget {
+  const VideoPlayer({
     super.key,
     required this.contents,
     required this.onTapBookmark,
     this.showBottomButtons = true,
+    this.isPopup = false,
   });
 
   final List<Content> contents;
   final void Function(bool isBookmarked) onTapBookmark;
   final bool showBottomButtons;
+  final bool isPopup;
 
   @override
-  State<CustomVideoPlayer> createState() => _CustomVideoPlayerState();
+  State<VideoPlayer> createState() => _VideoPlayerState();
 }
 
-class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
+class _VideoPlayerState extends State<VideoPlayer> {
   bool isFullScreen = false;
-  VideoPlayerController? controller;
+  vp.VideoPlayerController? controller;
 
   bool showPlayerController = false;
   bool isBookmarked = false;
@@ -69,7 +69,8 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
         ..removeListener(listener);
     }
 
-    controller = VideoPlayerController.networkUrl(Uri.parse(content.urlVideo));
+    controller =
+        vp.VideoPlayerController.networkUrl(Uri.parse(content.urlVideo));
     await controller!.initialize();
     controller!
       ..play()
@@ -80,9 +81,17 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   void initState() {
     super.initState();
 
+    isFullScreen = widget.isPopup;
+
     if (widget.contents.isNotEmpty) {
       _initialVideoPlayerController(widget.contents.first);
     }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isFullScreen) {
+        _hideStatusBar();
+      }
+    });
   }
 
   void _showStatusBar() {
@@ -90,6 +99,10 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
       SystemUiMode.manual,
       overlays: SystemUiOverlay.values,
     );
+  }
+
+  void _hideStatusBar() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
   }
 
   void _initControllerTimer() {
@@ -184,7 +197,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     isFullScreen = !isFullScreen;
 
     if (isFullScreen) {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+      _hideStatusBar();
     } else {
       _showStatusBar();
     }
@@ -214,37 +227,17 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   Widget build(BuildContext context) {
     return isFullScreen
         ? _buildPlayer()
-        : Parents(
-            title: 'Video player',
-            body: Align(
-              alignment: Alignment.topCenter,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 48.w,
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.white,
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Expanded(child: _buildPlayer()),
-                        if (widget.showBottomButtons)
-                          PlayerBottomButtons(
-                            onTapPrevious:
-                                currentIndex == 0 ? null : _onTapPrevious,
-                            onTapNext:
-                                currentIndex == widget.contents.length - 1
-                                    ? null
-                                    : _onTapNext,
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+        : Column(
+            children: [
+              Expanded(child: _buildPlayer()),
+              if (!widget.isPopup && widget.showBottomButtons)
+                ChangeVideoButtons(
+                  onTapPrevious: currentIndex == 0 ? null : _onTapPrevious,
+                  onTapNext: currentIndex == widget.contents.length - 1
+                      ? null
+                      : _onTapNext,
+                ),
+            ],
           );
   }
 
@@ -258,7 +251,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               Center(
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: VideoPlayer(controller!),
+                  child: vp.VideoPlayer(controller!),
                 ),
               ),
             SeekToControl(
@@ -286,6 +279,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                   isBookmarked: isBookmarked,
                   isFullScreen: isFullScreen,
                   isMultiplePlaylist: widget.contents.length > 1,
+                  isPopup: widget.isPopup,
                   repeatMode: repeatMode,
                 ),
               ),

@@ -1,4 +1,3 @@
-import 'package:all_in_one_flutter/feat/event/screen/absorb_pointer_screen.dart';
 import 'package:all_in_one_flutter/router/router_configs.dart';
 import 'package:flutter/material.dart';
 
@@ -65,7 +64,16 @@ class _MainScreenState extends State<MainScreen> {
       Menu(name: 'Pencil', onTap: () => const PencilRoute().push(context)),
       Menu(
         name: 'Video player',
-        onTap: () => const VideoPlayerRoute().push(context),
+        subMenus: [
+          Menu(
+            name: 'Video player',
+            onTap: () => const VideoPlayerRoute().push(context),
+          ),
+          Menu(
+            name: 'Popup video player',
+            onTap: () => const PopupVideoPlayerRoute().push(context),
+          ),
+        ],
       ),
       Menu(
         name: 'Flicker video player',

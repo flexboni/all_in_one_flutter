@@ -9,6 +9,7 @@ import 'package:all_in_one_flutter/feat/pdf/screen/flutter_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/multi_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/pdfx_screen.dart';
 import 'package:all_in_one_flutter/feat/pencil/screen/pencil_screen.dart';
+import 'package:all_in_one_flutter/feat/video_player/popup_video_player_screen.dart';
 import 'package:all_in_one_flutter/feat/video_player/video_player_screen.dart';
 import 'package:all_in_one_flutter/router/router_listenable.dart';
 import 'package:flutter/material.dart';
@@ -163,6 +164,18 @@ class VideoPlayerRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const VideoPlayerScreen();
+  }
+}
+
+@TypedGoRoute<PopupVideoPlayerRoute>(path: PopupVideoPlayerRoute.path)
+class PopupVideoPlayerRoute extends GoRouteData {
+  const PopupVideoPlayerRoute();
+
+  static const path = '/popup-video-player';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const PopupVideoPlayerScreen();
   }
 }
 

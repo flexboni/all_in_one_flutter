@@ -3,8 +3,8 @@ import 'package:all_in_one_flutter/core/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PlayerBottomButtons extends StatelessWidget {
-  const PlayerBottomButtons({
+class ChangeVideoButtons extends StatelessWidget {
+  const ChangeVideoButtons({
     super.key,
     required this.onTapPrevious,
     required this.onTapNext,
