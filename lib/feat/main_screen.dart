@@ -40,6 +40,19 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       Menu(
+        name: 'Page view',
+        subMenus: [
+          Menu(
+            name: 'Basic Page view',
+            onTap: () => const BasicPageViewRoute().push(context),
+          ),
+          Menu(
+            name: 'Video Page view',
+            onTap: () => const VideoPageViewRoute().push(context),
+          ),
+        ],
+      ),
+      Menu(
         name: 'PDF',
         subMenus: [
           Menu(
@@ -72,6 +85,10 @@ class _MainScreenState extends State<MainScreen> {
           Menu(
             name: 'Popup video player',
             onTap: () => const PopupVideoPlayerRoute().push(context),
+          ),
+          Menu(
+            name: 'Shorts player',
+            onTap: () => const ShortsPlayerRoute().push(context),
           ),
         ],
       ),

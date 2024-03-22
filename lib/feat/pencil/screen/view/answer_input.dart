@@ -40,9 +40,11 @@ class _SubjectiveAnswerInputState extends ConsumerState<SubjectiveAnswerInput> {
             controller: _controller,
             onChanged: widget.onResult,
             decoration: InputDecoration(
-                border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-            )),
+              isDense: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+            ),
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge

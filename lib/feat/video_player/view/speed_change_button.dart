@@ -8,11 +8,11 @@ class SpeedChangeButton extends StatelessWidget {
   const SpeedChangeButton({
     super.key,
     required this.controller,
-    required this.onShowController,
+    this.onShowController,
   });
 
   final VideoPlayerController controller;
-  final void Function() onShowController;
+  final void Function()? onShowController;
 
   void _onPressed(BuildContext context) {
     final double radius = 20.0.r;
@@ -28,7 +28,7 @@ class SpeedChangeButton extends StatelessWidget {
       1.25,
       1.5,
       1.75,
-      2,
+      2.0,
     ];
 
     showModalBottomSheet<void>(
@@ -75,7 +75,10 @@ class SpeedChangeButton extends StatelessWidget {
     return TextButton(
       onPressed: () {
         _onPressed(context);
-        onShowController();
+
+        if (onShowController != null) {
+          onShowController!();
+        }
       },
       child: Text(
         '${Strings.SPEED} ${controller.value.playbackSpeed}x',

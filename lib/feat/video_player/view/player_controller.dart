@@ -19,17 +19,17 @@ class PlayerController extends ConsumerWidget {
     required this.currentIndex,
     required this.onTapPrevious,
     required this.onTapNext,
-    required this.onShowController,
-    required this.onHideController,
+    this.onShowController,
+    this.onHideController,
     required this.onTapBookmark,
-    required this.onTapCheckPoint,
-    required this.onTapFullScreen,
+    this.onTapCheckPoint,
+    this.onTapFullScreen,
     this.onTapRepeat,
     required this.onTapPlaylist,
     required this.isBookmarked,
     required this.isFullScreen,
     required this.isMultiplePlaylist,
-    required this.isPopup,
+    this.isPopup,
     required this.repeatMode,
   });
 
@@ -38,17 +38,17 @@ class PlayerController extends ConsumerWidget {
   final int currentIndex;
   final void Function() onTapPrevious;
   final void Function() onTapNext;
-  final void Function() onShowController;
-  final void Function() onHideController;
+  final void Function()? onShowController;
+  final void Function()? onHideController;
   final void Function() onTapBookmark;
-  final void Function() onTapCheckPoint;
-  final void Function() onTapFullScreen;
+  final void Function()? onTapCheckPoint;
+  final void Function()? onTapFullScreen;
   final void Function(RepeatMode mode)? onTapRepeat;
   final void Function() onTapPlaylist;
   final bool isBookmarked;
   final bool isFullScreen;
   final bool isMultiplePlaylist;
-  final bool isPopup;
+  final bool? isPopup;
   final RepeatMode repeatMode;
 
   @override
@@ -78,7 +78,7 @@ class PlayerController extends ConsumerWidget {
                           subTitle: content.structure,
                         ),
                       ),
-                      if (isPopup)
+                      if (isPopup != null && isPopup!)
                         IconButton(
                           onPressed: () => context.pop(),
                           icon: Assets.icons.player.close.svg(),
@@ -135,7 +135,9 @@ class PlayerController extends ConsumerWidget {
                         controller.play();
                       }
 
-                      onShowController();
+                      if (onShowController != null) {
+                        onShowController!();
+                      }
                     },
                     icon: controller.value.isPlaying
                         ? Assets.icons.player.pause.svg()

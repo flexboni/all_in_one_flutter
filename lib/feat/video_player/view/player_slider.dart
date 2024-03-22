@@ -1,4 +1,4 @@
-import 'package:all_in_one_flutter/core/utils/app_date_utils.dart';
+import 'package:all_in_one_flutter/core/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
@@ -7,11 +7,11 @@ class PlayerSlider extends StatelessWidget {
   const PlayerSlider({
     super.key,
     required this.controller,
-    required this.onShowController,
+    this.onShowController,
   });
 
   final VideoPlayerController controller;
-  final void Function() onShowController;
+  final void Function()? onShowController;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,13 @@ class PlayerSlider extends StatelessWidget {
               child: Slider(
                 value: value.inSeconds.toDouble(),
                 max: max.inSeconds.toDouble(),
-                onChanged: (double value) {
-                  onShowController();
+                onChanged: (double value) async {
+                  if (onShowController != null) {
+                    onShowController!();
+                  }
 
-                  controller.seekTo(Duration(seconds: value.toInt()));
+                  await controller.seekTo(Duration(seconds: value.toInt()));
+                  controller.setPlaybackSpeed(controller.value.playbackSpeed);
                 },
                 activeColor: Colors.green,
                 inactiveColor: Colors.grey,

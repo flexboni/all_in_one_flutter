@@ -11,6 +11,8 @@ List<RouteBase> get $appRoutes => [
       $dragDropRoute,
       $absorbPointerRoute,
       $gifRoute,
+      $basicPageViewRoute,
+      $videoPageViewRoute,
       $basicPDFRoute,
       $pdfXRoute,
       $easyPDFRoute,
@@ -19,6 +21,7 @@ List<RouteBase> get $appRoutes => [
       $pencilRoute,
       $videoPlayerRoute,
       $popupVideoPlayerRoute,
+      $shortsPlayerRoute,
       $flickVideoPlayerRoute,
     ];
 
@@ -99,6 +102,52 @@ extension $GifRouteExtension on GifRoute {
 
   String get location => GoRouteData.$location(
         '/gif',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $basicPageViewRoute => GoRouteData.$route(
+      path: '/basic-page-view',
+      factory: $BasicPageViewRouteExtension._fromState,
+    );
+
+extension $BasicPageViewRouteExtension on BasicPageViewRoute {
+  static BasicPageViewRoute _fromState(GoRouterState state) =>
+      const BasicPageViewRoute();
+
+  String get location => GoRouteData.$location(
+        '/basic-page-view',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $videoPageViewRoute => GoRouteData.$route(
+      path: '/video-page-view',
+      factory: $VideoPageViewRouteExtension._fromState,
+    );
+
+extension $VideoPageViewRouteExtension on VideoPageViewRoute {
+  static VideoPageViewRoute _fromState(GoRouterState state) =>
+      const VideoPageViewRoute();
+
+  String get location => GoRouteData.$location(
+        '/video-page-view',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -278,6 +327,29 @@ extension $PopupVideoPlayerRouteExtension on PopupVideoPlayerRoute {
 
   String get location => GoRouteData.$location(
         '/popup-video-player',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $shortsPlayerRoute => GoRouteData.$route(
+      path: '/shorts-player',
+      factory: $ShortsPlayerRouteExtension._fromState,
+    );
+
+extension $ShortsPlayerRouteExtension on ShortsPlayerRoute {
+  static ShortsPlayerRoute _fromState(GoRouterState state) =>
+      const ShortsPlayerRoute();
+
+  String get location => GoRouteData.$location(
+        '/shorts-player',
       );
 
   void go(BuildContext context) => context.go(location);

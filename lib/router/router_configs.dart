@@ -3,6 +3,8 @@ import 'package:all_in_one_flutter/feat/event/screen/absorb_pointer_screen.dart'
 import 'package:all_in_one_flutter/feat/flick_video_player_screen.dart';
 import 'package:all_in_one_flutter/feat/image/screen/gif_screen.dart';
 import 'package:all_in_one_flutter/feat/main_screen.dart';
+import 'package:all_in_one_flutter/feat/page_view/screen/basic_page_view_screen.dart';
+import 'package:all_in_one_flutter/feat/page_view/screen/video_page_view_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/basic_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/easy_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/flutter_pdf_screen.dart';
@@ -10,6 +12,7 @@ import 'package:all_in_one_flutter/feat/pdf/screen/multi_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/pdfx_screen.dart';
 import 'package:all_in_one_flutter/feat/pencil/screen/pencil_screen.dart';
 import 'package:all_in_one_flutter/feat/video_player/popup_video_player_screen.dart';
+import 'package:all_in_one_flutter/feat/video_player/shorts_player_screen.dart';
 import 'package:all_in_one_flutter/feat/video_player/video_player_screen.dart';
 import 'package:all_in_one_flutter/router/router_listenable.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +83,30 @@ class GifRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const GifScreen();
+  }
+}
+
+@TypedGoRoute<BasicPageViewRoute>(path: BasicPageViewRoute.path)
+class BasicPageViewRoute extends GoRouteData {
+  const BasicPageViewRoute();
+
+  static const path = '/basic-page-view';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const BasicPageViewScreen();
+  }
+}
+
+@TypedGoRoute<VideoPageViewRoute>(path: VideoPageViewRoute.path)
+class VideoPageViewRoute extends GoRouteData {
+  const VideoPageViewRoute();
+
+  static const path = '/video-page-view';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const VideoPageViewScreen();
   }
 }
 
@@ -176,6 +203,18 @@ class PopupVideoPlayerRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const PopupVideoPlayerScreen();
+  }
+}
+
+@TypedGoRoute<ShortsPlayerRoute>(path: ShortsPlayerRoute.path)
+class ShortsPlayerRoute extends GoRouteData {
+  const ShortsPlayerRoute();
+
+  static const path = '/shorts-player';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const ShortsPlayerScreen();
   }
 }
 

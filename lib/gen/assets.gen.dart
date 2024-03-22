@@ -185,6 +185,10 @@ class $AssetsIconsPlayerGen {
   /// File path: assets/icons/player/next.svg
   SvgGenImage get next => const SvgGenImage('assets/icons/player/next.svg');
 
+  /// File path: assets/icons/player/next_page.svg
+  SvgGenImage get nextPage =>
+      const SvgGenImage('assets/icons/player/next_page.svg');
+
   /// File path: assets/icons/player/next_video.svg
   SvgGenImage get nextVideo =>
       const SvgGenImage('assets/icons/player/next_video.svg');
@@ -202,6 +206,14 @@ class $AssetsIconsPlayerGen {
   /// File path: assets/icons/player/previous.svg
   SvgGenImage get previous =>
       const SvgGenImage('assets/icons/player/previous.svg');
+
+  /// File path: assets/icons/player/previous_page.svg
+  SvgGenImage get previousPage =>
+      const SvgGenImage('assets/icons/player/previous_page.svg');
+
+  /// File path: assets/icons/player/previous_page_disabled.svg
+  SvgGenImage get previousPageDisabled =>
+      const SvgGenImage('assets/icons/player/previous_page_disabled.svg');
 
   /// File path: assets/icons/player/previous_video.svg
   SvgGenImage get previousVideo =>
@@ -227,11 +239,14 @@ class $AssetsIconsPlayerGen {
         fullScreenActive,
         fullScreenDefault,
         next,
+        nextPage,
         nextVideo,
         pause,
         play,
         playlist,
         previous,
+        previousPage,
+        previousPageDisabled,
         previousVideo,
         repeat,
         repeatAll,

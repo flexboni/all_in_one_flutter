@@ -21,6 +21,7 @@ class Parents extends StatelessWidget {
     return Scaffold(
       appBar: appBar ?? AppBar(title: Text(title!)),
       body: body,
+      resizeToAvoidBottomInset: false,
       backgroundColor: backgroundColor,
       floatingActionButton: floatingActionButton,
     );

@@ -1,4 +1,5 @@
 import 'package:all_in_one_flutter/constant/constants.dart';
+import 'package:all_in_one_flutter/core/custom_packages/custom_interactive_viewer/custom_interactive_viewer.dart';
 import 'package:all_in_one_flutter/core/utils/toast_utils.dart';
 import 'package:all_in_one_flutter/core/utils/utils.dart';
 import 'package:all_in_one_flutter/core/widgets/error_default.dart';
@@ -12,6 +13,7 @@ import 'package:all_in_one_flutter/feat/pencil/screen/app_pencil_kit.dart';
 import 'package:all_in_one_flutter/feat/pencil/screen/view/problem_view.dart';
 import 'package:all_in_one_flutter/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pencil_kit/pencil_kit.dart';
@@ -27,13 +29,12 @@ class _PencilScreenState extends ConsumerState<PencilScreen>
     with TickerProviderStateMixin {
   PencilKitController? _controller;
 
-  final double _previousScale = 1.0;
-  final double _scale = 1.0;
-
-  final Offset _prevPosition = Offset.zero;
-  final Offset _position = Offset.zero;
-
   void init() async {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top],
+    );
+
     ref.listenManual(
       pencilControllerProvider,
       (previous, next) {
@@ -110,44 +111,35 @@ class _PencilScreenState extends ConsumerState<PencilScreen>
 
           return Stack(
             children: [
-              Stack(
-                children: [
-                  const ProblemView(),
-                  AppPencilKit(
-                    onPencilKitViewCreated: (controller) {
-                      setState(() {
-                        _controller = controller;
-                      });
-                    },
-                  ),
-                ],
+              CustomInteractiveViewer(
+                child: Stack(
+                  children: [
+                    const ProblemView(),
+                    AppPencilKit(
+                      onPencilKitViewCreated: (controller) {
+                        setState(() {
+                          _controller = controller;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
               Positioned(
                 top: 30,
                 right: 30,
-                child: Stack(
-                  children: [
-                    AbsorbPointer(
-                      child: Container(
-                        width: 200,
-                        height: 100,
-                        color: Colors.yellow,
+                child: question.answers.length == 5
+                    ? MultipleAnswerInput(
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        question: question,
+                        onResult: (String? value) =>
+                            onResult(question: question, value: value),
+                      )
+                    : SubjectiveAnswerInput(
+                        question: question,
+                        onResult: (String? value) =>
+                            onResult(question: question, value: value),
                       ),
-                    ),
-                    question.answers.length == 5
-                        ? MultipleAnswerInput(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            question: question,
-                            onResult: (String? value) =>
-                                onResult(question: question, value: value),
-                          )
-                        : SubjectiveAnswerInput(
-                            question: question,
-                            onResult: (String? value) =>
-                                onResult(question: question, value: value),
-                          ),
-                  ],
-                ),
               ),
               slider(exam: data.exam, currentIndex: data.currentIndex),
             ],

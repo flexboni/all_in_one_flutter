@@ -11,29 +11,29 @@ class PlayerControllerBottomButtons extends StatelessWidget {
     super.key,
     required this.controller,
     required this.onTapBookmark,
-    required this.onTapCheckPoint,
-    required this.onShowController,
+    this.onTapCheckPoint,
+    this.onShowController,
     required this.onTapRepeat,
-    required this.onTapFullScreen,
+    this.onTapFullScreen,
     required this.onTapPlaylist,
     required this.isBookmarked,
     required this.isMultiplePlaylist,
     required this.isFullScreen,
-    required this.isPopup,
+    this.isPopup,
     required this.repeatMode,
   });
 
   final VideoPlayerController controller;
   final void Function() onTapBookmark;
-  final void Function() onTapCheckPoint;
-  final void Function() onShowController;
+  final void Function()? onTapCheckPoint;
+  final void Function()? onShowController;
   final void Function(RepeatMode mode)? onTapRepeat;
-  final void Function() onTapFullScreen;
+  final void Function()? onTapFullScreen;
   final void Function() onTapPlaylist;
   final bool isBookmarked;
   final bool isMultiplePlaylist;
   final bool isFullScreen;
-  final bool isPopup;
+  final bool? isPopup;
   final RepeatMode repeatMode;
 
   @override
@@ -79,7 +79,7 @@ class PlayerControllerBottomButtons extends StatelessWidget {
                 isMultiplePlaylist: isMultiplePlaylist,
                 onTapRepeat: onTapRepeat,
               ),
-              if (!isPopup)
+              if (isPopup == null || isPopup == false)
                 IconButton(
                   onPressed: onTapFullScreen,
                   icon: isFullScreen
