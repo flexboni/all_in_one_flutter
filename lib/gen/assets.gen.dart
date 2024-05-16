@@ -94,6 +94,7 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesCaptureGen get capture => const $AssetsImagesCaptureGen();
   $AssetsImagesDragDropGen get dragDrop => const $AssetsImagesDragDropGen();
   $AssetsImagesGifGen get gif => const $AssetsImagesGifGen();
   $AssetsImagesPencilGen get pencil => const $AssetsImagesPencilGen();
@@ -252,6 +253,17 @@ class $AssetsIconsPlayerGen {
         repeatAll,
         repeatOne
       ];
+}
+
+class $AssetsImagesCaptureGen {
+  const $AssetsImagesCaptureGen();
+
+  /// File path: assets/images/capture/math.png
+  AssetGenImage get math =>
+      const AssetGenImage('assets/images/capture/math.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [math];
 }
 
 class $AssetsImagesDragDropGen {

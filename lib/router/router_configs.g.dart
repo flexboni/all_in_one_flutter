@@ -8,9 +8,11 @@ part of 'router_configs.dart';
 
 List<RouteBase> get $appRoutes => [
       $mainRoute,
+      $widgetCaptureRoute,
       $dragDropRoute,
       $absorbPointerRoute,
       $gifRoute,
+      $basicPaginationRoute,
       $basicPageViewRoute,
       $videoPageViewRoute,
       $basicPDFRoute,
@@ -35,6 +37,29 @@ extension $MainRouteExtension on MainRoute {
 
   String get location => GoRouteData.$location(
         '/main',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $widgetCaptureRoute => GoRouteData.$route(
+      path: '/widget-capture',
+      factory: $WidgetCaptureRouteExtension._fromState,
+    );
+
+extension $WidgetCaptureRouteExtension on WidgetCaptureRoute {
+  static WidgetCaptureRoute _fromState(GoRouterState state) =>
+      const WidgetCaptureRoute();
+
+  String get location => GoRouteData.$location(
+        '/widget-capture',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -102,6 +127,29 @@ extension $GifRouteExtension on GifRoute {
 
   String get location => GoRouteData.$location(
         '/gif',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $basicPaginationRoute => GoRouteData.$route(
+      path: '/basic-pagination',
+      factory: $BasicPaginationRouteExtension._fromState,
+    );
+
+extension $BasicPaginationRouteExtension on BasicPaginationRoute {
+  static BasicPaginationRoute _fromState(GoRouterState state) =>
+      const BasicPaginationRoute();
+
+  String get location => GoRouteData.$location(
+        '/basic-pagination',
       );
 
   void go(BuildContext context) => context.go(location);

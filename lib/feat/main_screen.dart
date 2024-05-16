@@ -24,6 +24,15 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
 
     items = [
+      Menu(
+        name: 'Capture',
+        subMenus: [
+          Menu(
+            name: 'Widget capture',
+            onTap: () => const WidgetCaptureRoute().push(context),
+          )
+        ],
+      ),
       Menu(name: 'Drag drop', onTap: () => const DragDropRoute().push(context)),
       Menu(
         name: 'Event',
@@ -37,6 +46,15 @@ class _MainScreenState extends State<MainScreen> {
         name: 'Image',
         subMenus: [
           Menu(name: 'Gif', onTap: () => const GifRoute().push(context))
+        ],
+      ),
+      Menu(
+        name: 'Pagination',
+        subMenus: [
+          Menu(
+            name: 'Basic',
+            onTap: () => const BasicPaginationRoute().push(context),
+          )
         ],
       ),
       Menu(

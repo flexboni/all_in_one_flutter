@@ -1,3 +1,4 @@
+import 'package:all_in_one_flutter/feat/capture/screen/widget_capture_screen.dart';
 import 'package:all_in_one_flutter/feat/drag_drop/screen/drag_drap_screen.dart';
 import 'package:all_in_one_flutter/feat/event/screen/absorb_pointer_screen.dart';
 import 'package:all_in_one_flutter/feat/flick_video_player_screen.dart';
@@ -5,6 +6,7 @@ import 'package:all_in_one_flutter/feat/image/screen/gif_screen.dart';
 import 'package:all_in_one_flutter/feat/main_screen.dart';
 import 'package:all_in_one_flutter/feat/page_view/screen/basic_page_view_screen.dart';
 import 'package:all_in_one_flutter/feat/page_view/screen/video_page_view_screen.dart';
+import 'package:all_in_one_flutter/feat/pagination/screen/basic_pagination_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/basic_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/easy_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/flutter_pdf_screen.dart';
@@ -50,6 +52,18 @@ class MainRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<WidgetCaptureRoute>(path: WidgetCaptureRoute.path)
+class WidgetCaptureRoute extends GoRouteData {
+  const WidgetCaptureRoute();
+
+  static const path = '/widget-capture';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const WidgetCaptureScreen();
+  }
+}
+
 @TypedGoRoute<DragDropRoute>(path: DragDropRoute.path)
 class DragDropRoute extends GoRouteData {
   const DragDropRoute();
@@ -83,6 +97,18 @@ class GifRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const GifScreen();
+  }
+}
+
+@TypedGoRoute<BasicPaginationRoute>(path: BasicPaginationRoute.path)
+class BasicPaginationRoute extends GoRouteData {
+  const BasicPaginationRoute();
+
+  static const path = '/basic-pagination';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const BasicPaginationScreen();
   }
 }
 
