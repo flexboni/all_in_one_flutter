@@ -9,7 +9,7 @@ part of 'step.dart';
 _$StepImpl _$$StepImplFromJson(Map<String, dynamic> json) => _$StepImpl(
       code: json['code'] as String?,
       title: json['title'] as String?,
-      step: json['step'] as int?,
+      step: (json['step'] as num?)?.toInt(),
       urlLottie: json['url_lottie'] as String?,
       urlMp3: json['url_mp3'] as String?,
       recommends: (json['recommends'] as List<dynamic>?)

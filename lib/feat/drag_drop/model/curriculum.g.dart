@@ -12,8 +12,8 @@ _$CurriculumImpl _$$CurriculumImplFromJson(Map<String, dynamic> json) =>
       type: $enumDecode(_$CurriculumTypeEnumMap, json['type']),
       grade: json['grade'] as String?,
       title: json['title'] as String,
-      count: json['count'] as int,
-      day: json['day'] as int?,
+      count: (json['count'] as num).toInt(),
+      day: (json['day'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$CurriculumImplToJson(_$CurriculumImpl instance) =>

@@ -9,7 +9,7 @@ part of 'step_view.dart';
 _$StepViewImpl _$$StepViewImplFromJson(Map<String, dynamic> json) =>
     _$StepViewImpl(
       code: json['code'] as String?,
-      step: json['step'] as int?,
+      step: (json['step'] as num?)?.toInt(),
       title: json['title'] as String?,
       steps: (json['steps'] as List<dynamic>?)
           ?.map((e) => Step.fromJson(e as Map<String, dynamic>))

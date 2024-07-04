@@ -9,7 +9,7 @@ part of 'solution_step.dart';
 _$SolutionStepImpl _$$SolutionStepImplFromJson(Map<String, dynamic> json) =>
     _$SolutionStepImpl(
       code: json['code'] as String?,
-      step: json['step'] as int?,
+      step: (json['step'] as num?)?.toInt(),
       comment: json['comment'] as String?,
       contentSolution: json['content_solution'] as String?,
       editorSolution: json['editor_solution'] as String?,

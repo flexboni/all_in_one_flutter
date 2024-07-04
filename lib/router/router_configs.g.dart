@@ -21,10 +21,12 @@ List<RouteBase> get $appRoutes => [
       $flutterPDFRoute,
       $multiPDFRoute,
       $pencilRoute,
+      $texTextRoute,
       $videoPlayerRoute,
       $popupVideoPlayerRoute,
       $shortsPlayerRoute,
       $flickVideoPlayerRoute,
+      $speechToTextRoute,
     ];
 
 RouteBase get $mainRoute => GoRouteData.$route(
@@ -341,6 +343,28 @@ extension $PencilRouteExtension on PencilRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+RouteBase get $texTextRoute => GoRouteData.$route(
+      path: '/tex-text',
+      factory: $TexTextRouteExtension._fromState,
+    );
+
+extension $TexTextRouteExtension on TexTextRoute {
+  static TexTextRoute _fromState(GoRouterState state) => const TexTextRoute();
+
+  String get location => GoRouteData.$location(
+        '/tex-text',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 RouteBase get $videoPlayerRoute => GoRouteData.$route(
       path: '/video-player',
       factory: $VideoPlayerRouteExtension._fromState,
@@ -421,6 +445,29 @@ extension $FlickVideoPlayerRouteExtension on FlickVideoPlayerRoute {
 
   String get location => GoRouteData.$location(
         '/flick-video-player',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $speechToTextRoute => GoRouteData.$route(
+      path: '/speech-to-text',
+      factory: $SpeechToTextRouteExtension._fromState,
+    );
+
+extension $SpeechToTextRouteExtension on SpeechToTextRoute {
+  static SpeechToTextRoute _fromState(GoRouterState state) =>
+      const SpeechToTextRoute();
+
+  String get location => GoRouteData.$location(
+        '/speech-to-text',
       );
 
   void go(BuildContext context) => context.go(location);

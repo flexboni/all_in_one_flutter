@@ -7,7 +7,7 @@ part of 'answer.dart';
 // **************************************************************************
 
 _$AnswerImpl _$$AnswerImplFromJson(Map<String, dynamic> json) => _$AnswerImpl(
-      answerNo: json['answer_no'] as int?,
+      answerNo: (json['answer_no'] as num?)?.toInt(),
       contentAnswer: json['content_answer'] as String?,
       editorAnswer: json['editor_answer'] as String?,
       correctAnswer: json['correct_answer'] as String?,

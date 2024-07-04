@@ -7,7 +7,7 @@ part of 'exam.dart';
 // **************************************************************************
 
 _$ExamImpl _$$ExamImplFromJson(Map<String, dynamic> json) => _$ExamImpl(
-      total: json['total'] as int,
+      total: (json['total'] as num).toInt(),
       questions: (json['questions'] as List<dynamic>)
           .map((e) => Question.fromJson(e as Map<String, dynamic>))
           .toList(),

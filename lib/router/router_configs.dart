@@ -13,9 +13,11 @@ import 'package:all_in_one_flutter/feat/pdf/screen/flutter_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/multi_pdf_screen.dart';
 import 'package:all_in_one_flutter/feat/pdf/screen/pdfx_screen.dart';
 import 'package:all_in_one_flutter/feat/pencil/screen/pencil_screen.dart';
+import 'package:all_in_one_flutter/feat/tex/screen/tex_text_screen.dart';
 import 'package:all_in_one_flutter/feat/video_player/popup_video_player_screen.dart';
 import 'package:all_in_one_flutter/feat/video_player/shorts_player_screen.dart';
 import 'package:all_in_one_flutter/feat/video_player/video_player_screen.dart';
+import 'package:all_in_one_flutter/feat/voice/screen/speech_to_text_screen.dart';
 import 'package:all_in_one_flutter/router/router_listenable.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -208,6 +210,18 @@ class PencilRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<TexTextRoute>(path: TexTextRoute.path)
+class TexTextRoute extends GoRouteData {
+  const TexTextRoute();
+
+  static const path = '/tex-text';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const TexTextScreen();
+  }
+}
+
 @TypedGoRoute<VideoPlayerRoute>(path: VideoPlayerRoute.path)
 class VideoPlayerRoute extends GoRouteData {
   const VideoPlayerRoute();
@@ -253,5 +267,17 @@ class FlickVideoPlayerRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const FlickVideoPlayerScreen();
+  }
+}
+
+@TypedGoRoute<SpeechToTextRoute>(path: SpeechToTextRoute.path)
+class SpeechToTextRoute extends GoRouteData {
+  const SpeechToTextRoute();
+
+  static const path = '/speech-to-text';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const SpeechToTextScreen();
   }
 }

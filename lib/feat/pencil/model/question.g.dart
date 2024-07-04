@@ -13,8 +13,8 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
       typeQuestion: json['type_question'] as String?,
       contentQuestion: json['content_question'] as String?,
       urlThumbnail: json['url_thumbnail'] as String?,
-      solveTime: json['solve_time'] as int?,
-      incorrectRate: json['incorrect_rate'] as int?,
+      solveTime: (json['solve_time'] as num?)?.toInt(),
+      incorrectRate: (json['incorrect_rate'] as num?)?.toInt(),
       answersCorrects: (json['answers_correct'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),

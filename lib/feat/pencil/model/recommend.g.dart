@@ -10,7 +10,7 @@ _$RecommendImpl _$$RecommendImplFromJson(Map<String, dynamic> json) =>
     _$RecommendImpl(
       code: json['code'] as String?,
       typeRecommend: json['type_recommend'] as String?,
-      timeRecommend: json['time_recommend'] as int?,
+      timeRecommend: (json['time_recommend'] as num?)?.toInt(),
       lectures: (json['lectures'] as List<dynamic>?)
           ?.map((e) => Lecture.fromJson(e as Map<String, dynamic>))
           .toList(),

@@ -94,6 +94,15 @@ class _MainScreenState extends State<MainScreen> {
       ),
       Menu(name: 'Pencil', onTap: () => const PencilRoute().push(context)),
       Menu(
+        name: 'Tex',
+        subMenus: [
+          Menu(
+            name: 'Tex text',
+            onTap: () => const TexTextRoute().push(context),
+          ),
+        ],
+      ),
+      Menu(
         name: 'Video player',
         subMenus: [
           Menu(
@@ -113,6 +122,15 @@ class _MainScreenState extends State<MainScreen> {
       Menu(
         name: 'Flicker video player',
         onTap: () => const FlickVideoPlayerRoute().push(context),
+      ),
+      Menu(
+        name: 'Voice',
+        subMenus: [
+          Menu(
+            name: 'Speech to text',
+            onTap: () => const SpeechToTextRoute().push(context),
+          ),
+        ],
       ),
     ];
   }
